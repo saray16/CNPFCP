@@ -102,7 +102,23 @@
                                         </td>
                                         <td class="py-3 px-4 text-end">
                                             @if($inscripcion->estado_formacion == 'aprobado')
+<<<<<<< HEAD
                                                 <a href="#" class="btn btn-sm btn-outline-primary">
+=======
+                                                @php
+                                                    // Determinar el tipo de formación para la URL
+                                                    $tipo = '';
+                                                    if($inscripcion->tipo_formacion == 'C') {
+                                                        $tipo = 'curso';
+                                                    } elseif($inscripcion->tipo_formacion == 'T') {
+                                                        $tipo = 'taller';
+                                                    } elseif($inscripcion->tipo_formacion == 'D') {
+                                                        $tipo = 'diplomado';
+                                                    }
+                                                @endphp
+                                                
+                                                <a href="{{ route('certificado.descargar', ['tipo' => $tipo, 'id' => $inscripcion->id]) }}" class="btn btn-sm btn-outline-primary">
+
                                                     <i class="fas fa-file-pdf me-1"></i> Descargar
                                                 </a>
                                             @else

@@ -66,6 +66,7 @@
                 <th>Tipo Formación</th>
                 <th>Estado</th>
                 <th>Certificado</th>
+                <th>Aprobación Facilitador</th> <!-- Nueva columna añadida -->
             </tr>
         </thead>
         <tbody>
@@ -82,13 +83,35 @@
                 </td>
                 <td>{{ $inscripcion->estado }}</td>
                 <td>
-                    @if($inscripcion->certificado_pdf_path)
-                        <a href="{{ asset('storage/' . $inscripcion->certificado_pdf_path) }}" target="_blank" class="btn btn-sm btn-success">Ver certificado</a>
+                    @if($inscripcion->aprobado_por_facilitador === true)
+                        @if($inscripcion->certificado_pdf_path)
+                            <a href="{{ asset('storage/' . $inscripcion->certificado_pdf_path) }}" 
+                               target="_blank" class="btn btn-sm btn-success">
+                               Descargar certificado
+                            </a>
+                        @else
+                            <a href="{{ route('admin.certificado.edit', $inscripcion->id) }}" 
+                               class="btn btn-sm btn-warning">
+                               Subir certificado
+                            </a>
+                        @endif
+                    @elseif($inscripcion->aprobado_por_facilitador === false)
+                        <span class="text-danger">No aprobado</span>
                     @else
-                        <span class="text-muted">No disponible</span>
+                        <span class="text-warning">Pendiente</span>
                     @endif
-                    <br>
-                    <a href="{{ route('admin.certificado.edit', $inscripcion->id) }}" class="btn btn-sm btn-warning mt-1">Subir / Cambiar certificado</a>
+                </td>
+                <td>
+                    @if($inscripcion->aprobado_por_facilitador === true)
+                        <span class="text-success">Aprobado</span>
+                    @elseif($inscripcion->aprobado_por_facilitador === false)
+                        <span class="text-danger">Rechazado</span>
+                    @else
+                        <span class="text-warning">Pendiente</span>
+                    @endif
+                    @if($inscripcion->facilitador)
+                        <br><small>Por: {{ $inscripcion->facilitador->name }}</small>
+                    @endif
                 </td>
             </tr>
             @endforeach

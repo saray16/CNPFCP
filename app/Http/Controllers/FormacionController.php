@@ -6,30 +6,58 @@ use App\Models\Formacion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use App\Models\ActividadRecreacional;
 
 class FormacionController extends Controller
 {
     public function index()
-    {
-       $talleres = Formacion::where('tipo', 'T')
-                ->disponibles()
-                ->orderBy('disponible_hoy', 'desc')
-                ->orderBy('created_at', 'desc')
-                ->get(['id', 'nombre', 'tipo', 'descripcion', 'facilitador', 'categoria', 'duracion', 'disponible_hoy', 'icono']); // Añadí 'facilitador' aquí
+{
+    // Obtener las formaciones normales
+    $talleres = Formacion::where('tipo', 'T')
+        ->disponibles()
+        ->orderBy('disponible_hoy', 'desc')
+        ->orderBy('created_at', 'desc')
+        ->get(['id', 'nombre', 'tipo', 'descripcion', 'facilitador', 'categoria', 'duracion', 'disponible_hoy', 'icono']);
 
     $cursos = Formacion::where('tipo', 'C')
-               ->disponibles()
-               ->orderBy('disponible_hoy', 'desc')
-               ->orderBy('created_at', 'desc')
-               ->get(['id', 'nombre', 'tipo', 'descripcion', 'facilitador', 'categoria', 'duracion', 'disponible_hoy', 'icono']);
+        ->disponibles()
+        ->orderBy('disponible_hoy', 'desc')
+        ->orderBy('created_at', 'desc')
+        ->get(['id', 'nombre', 'tipo', 'descripcion', 'facilitador', 'categoria', 'duracion', 'disponible_hoy', 'icono']);
 
     $diplomados = Formacion::where('tipo', 'D')
-                   ->disponibles()
-                   ->orderBy('disponible_hoy', 'desc')
-                   ->orderBy('created_at', 'desc')
-                   ->get(['id', 'nombre', 'tipo', 'descripcion', 'facilitador', 'categoria', 'duracion', 'disponible_hoy', 'icono']);
+        ->disponibles()
+        ->orderBy('disponible_hoy', 'desc')
+        ->orderBy('created_at', 'desc')
+        ->get(['id', 'nombre', 'tipo', 'descripcion', 'facilitador', 'categoria', 'duracion', 'disponible_hoy', 'icono']);
 
-    return view('welcome', compact('talleres', 'cursos', 'diplomados'));
+    // Obtener actividades recreacionales y convertirlas en formaciones
+    $actividadesRecreacionales = ActividadRecreacional::orderBy('fecha')
+        ->orderBy('hora_inicio')
+        ->get();
+
+    // Agregar actividades recreacionales como talleres
+    foreach ($actividadesRecreacionales as $actividad) {
+        $talleres->push((object)[
+            'id' => $actividad->id,
+            'nombre' => $actividad->nombre,
+            'descripcion' => $actividad->tipo . ' para ' . $actividad->rango_edad,
+            'tipo' => 'T',
+            'categoria' => 'Plan Recreacional',
+            'duracion' => $actividad->horas_formacion,
+            'disponible_hoy' => true,
+            'fecha' => $actividad->fecha,
+            'hora_inicio' => $actividad->hora_inicio,
+            'hora_fin' => $actividad->hora_fin,
+            'rango_edad' => $actividad->rango_edad,
+            'semana' => $actividad->semana,
+            'icono' => 'bi-emoji-smile',
+            'rating' => '5.0',
+            'facilitador' => null // O puedes agregar un facilitador si lo necesitas
+        ]);
+    }
+
+    return view('welcome', compact('talleres', 'cursos', 'diplomados', 'actividadesRecreacionales'));
 }
 
     public function show($id)
@@ -47,6 +75,7 @@ class FormacionController extends Controller
 
     if ($categoria === 'hoy') {
         $query->where('disponible_hoy', true);
+          } elseif ($categoria === 'Plan Recreacional') {
     } elseif ($categoria !== 'all') {
         $query->where('categoria', $categoria);
     }
@@ -78,7 +107,7 @@ public function store(Request $request)
             'categoria' => $validated['categoria'],
             'duracion' => $validated['duracion'] ?? null,
             'disponible_hoy' => $validated['disponible_hoy'],
-             'facilitador' => $validated['facilitador'] ?? null,
+            'facilitador' => $validated['facilitador'] ?? null,
             'icono' => $this->getIconForCategory($validated['categoria']),
         ]);
 
@@ -184,5 +213,6 @@ public function store(Request $request)
 
         return $icons[$category] ?? 'bi-journal-bookmark';
     }
+    
     
 }

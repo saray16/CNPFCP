@@ -57,6 +57,10 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url('admin') }}">Panel Admin</a>
                             </li>
+                             @elseif (Auth::user()->rol === 'facilitador')
+                             <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('facilitador/dashboard') }}">Panel Facilitador</a>
+                             </li>
                         @else
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url('usuario') }}">Mi Panel</a>
@@ -83,6 +87,8 @@
             </div>
         </div>
     </nav>
+
+
 
 
 

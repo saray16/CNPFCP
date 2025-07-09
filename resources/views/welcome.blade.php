@@ -15,123 +15,7 @@
                 <h2 class="display-4 fw-bold mb-3" style="color: #2c3e50;">Nuestras Formaciones</h2>
                 <div class="divider mx-auto" style="width: 80px; height: 4px; background: linear-gradient(90deg, #2c3e50, #678ca3);"></div>
                 <p class="lead mt-3" style="color: #678ca3;">Programas diseñados para la excelencia educativa</p>
-                <!-- Banner Plan Recreacional -->
-<div class="mb-5">
-    <div class="position-relative overflow-hidden rounded-4 animate__animated animate__fadeInUp" style="
-        background: linear-gradient(135deg, #f8fafc, #dce5ec);
-        border-left: 6px solid #2c3e50;
-        padding: 2.5rem 2rem;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: space-between;
-        transition: all 0.4s ease;
-    ">
-        <!-- Texto -->
-        <div class="mb-3 mb-md-0" style="max-width: 65%;">
-            <div class="d-flex align-items-center mb-2">
-                <!-- Ícono elegante -->
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="#2c3e50" class="me-2">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10
-                             10-4.48 10-10S17.52 2 12 2zm0 3a1.5 1.5 0 110 3
-                             1.5 1.5 0 010-3zm1 14h-2v-2h2v2zm0-4h-2V8h2v7z"/>
-                </svg>
-                <h4 class="fw-bold mb-0" style="color: #2c3e50;">Plan Recreacional Institucional</h4>
-            </div>
-            <p class="mb-0" style="color: #5f6f81; font-size: 1.05rem;">
-                Actividades participativas que fomentan el aprendizaje desde la creatividad y la recreación.
-            </p>
-        </div>
-
-        <!-- Botón Interactivo -->
-        <button id="recreacionalBtn" class="btn px-4 py-2 fw-semibold rounded-pill mt-3 mt-md-0" style="
-            background: linear-gradient(135deg, #2c3e50, #4a6580);
-            color: #fff;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-            Ver Detalles
-        </button>
-
-        <!-- Panel oculto con contenido -->
-        <div id="panelRecreacional" style="
-            display: none;
-            width: 100%;
-            padding: 2rem 1.5rem;
-            margin-top: 2rem;
-            background: rgba(255, 255, 255, 0.75);
-            border-radius: 1rem;
-            backdrop-filter: blur(6px);
-            box-shadow: inset 0 0 20px rgba(44,62,80,0.05);
-            animation: slideDown 0.4s ease-out forwards;
-        ">
-            <div class="row">
-                <!-- Tarjeta 1 -->
-                <div class="col-md-4 mb-3">
-                    <div class="p-4 rounded-3 shadow-sm h-100" style="background: #f2f6fa;">
-                        <div class="mb-2">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="#4a6580">
-                                <path d="M3 13h2v-2H3v2zm4 0h14v-2H7v2zm0 4h10v-2H7v2zm0-8h14V7H7v2z"/>
-                            </svg>
-                        </div>
-                        <h6 class="fw-bold mb-1" style="color:#2c3e50;">Talleres Recreativos</h6>
-                        <p class="mb-0 text-muted" style="font-size: 0.9rem;">Sesiones diseñadas para promover habilidades blandas mediante el juego.</p>
-                    </div>
-                </div>
-                <!-- Tarjeta 2 -->
-                <div class="col-md-4 mb-3">
-                    <div class="p-4 rounded-3 shadow-sm h-100" style="background: #f2f6fa;">
-                        <div class="mb-2">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="#4a6580">
-                                <path d="M12 2L1.5 9l10.5 7 10.5-7L12 2zm0 2.18L19.5 9 12 13.82 4.5 9 12 4.18z"/>
-                            </svg>
-                        </div>
-                        <h6 class="fw-bold mb-1" style="color:#2c3e50;">Dinámicas Grupales</h6>
-                        <p class="mb-0 text-muted" style="font-size: 0.9rem;">Actividades que fortalecen el trabajo en equipo y el pensamiento creativo.</p>
-                    </div>
-                </div>
-                <!-- Tarjeta 3 -->
-                <div class="col-md-4 mb-3">
-                    <div class="p-4 rounded-3 shadow-sm h-100" style="background: #f2f6fa;">
-                        <div class="mb-2">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="#4a6580">
-                                <path d="M5 5v14h14V5H5zm2 2h10v10H7V7z"/>
-                            </svg>
-                        </div>
-                        <h6 class="fw-bold mb-1" style="color:#2c3e50;">Material Audiovisual</h6>
-                        <p class="mb-0 text-muted" style="font-size: 0.9rem;">Recursos didácticos complementarios para reforzar la experiencia recreacional.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<script>
- document.addEventListener("DOMContentLoaded", function() {
-        const btn = document.getElementById("recreacionalBtn");
-        const panel = document.getElementById("panelRecreacional");
-
-        btn.addEventListener("click", function() {
-            panel.style.display = (panel.style.display === "none" || panel.style.display === "") ? "block" : "none";
-        });
-    });
-    </script>
-<!-- Animación personalizada -->
-<style>
-@keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-</style>
-
+           
      </div>
 
 
@@ -159,6 +43,7 @@
                         <div class="sidebar-sticky pt-3">
                             <h3 class="sidebar-heading px-3 mb-3">Categorías de Formación</h3>
                             <ul class="nav flex-column" id="category-filters">
+                                <li class="nav-item"><a class="nav-link category-filter" href="#" data-category="Plan Recreacional"><i class="bi bi-emoji-smile me-2"></i>Plan Recreacional</a></li>
                                 <li class="nav-item"><a class="nav-link category-filter active" href="#" data-category="all"><i class="bi bi-grid-fill me-2"></i>Todas</a></li>
                                 <li class="nav-item"><a class="nav-link category-filter" href="#" data-category="hoy"><i class="bi bi-check2-circle me-2"></i>Disponibles hoy</a></li>
                                 <li class="nav-item"><a class="nav-link category-filter" href="#" data-category="Biología"><i class="bi bi-flower3 me-2"></i>Biología</a></li>
@@ -602,7 +487,7 @@
                             <!-- Campo agregado para el facilitador -->
                             <div class="form-floating mb-4">
                                 <input type="text" class="form-control" id="editFormationFacilitador" name="facilitador">
-                                <label for="editFormationFacilitador">Facilitador(es)</label>
+                                <label for="formationFacilitador">Facilitador(es)</label>
                                 <small class="text-muted">Separa múltiples facilitadores con comas</small>
                             </div>
                         </div>
@@ -616,10 +501,60 @@
         </div>
     </div>
 </div>
+<!-- Modal para Plan Recreacional -->
+<div class="modal fade" id="recreacionalModal" tabindex="-1" aria-labelledby="recreacionalModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="recreacionalModalLabel">Plan Recreacional</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    @foreach($actividadesRecreacionales as $actividad)
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100 shadow-sm">
+                            <div class="card-header bg-light">
+                                <h5 class="card-title mb-0">{{ $actividad->nombre }}</h5>
+                                <small class="text-muted">{{ $actividad->tipo }}</small>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <p class="mb-1"><i class="bi bi-calendar-event me-2"></i> <strong>Fecha:</strong> {{ $actividad->fecha->format('d/m/Y') }}</p>
+                                        <p class="mb-1"><i class="bi bi-clock me-2"></i> <strong>Horario:</strong> {{ $actividad->hora_inicio }} - {{ $actividad->hora_fin }}</p>
+                                    </div>
+                                    <div class="col-6">
+                                        <p class="mb-1"><i class="bi bi-person me-2"></i> <strong>Edad:</strong> {{ $actividad->rango_edad }}</p>
+                                        <p class="mb-1"><i class="bi bi-hourglass me-2"></i> <strong>Duración:</strong> {{ $actividad->horas_formacion }} horas</p>
+                                    </div>
+                                </div>
+                                <div class="mt-2">
+                                    <span class="badge bg-info text-dark"><i class="bi bi-calendar-week me-1"></i> {{ $actividad->semana }}</span>
+                                </div>
+                            </div>
+                            <div class="card-footer bg-transparent">
+                                <button class="btn btn-sm btn-primary w-100">Inscribirse</button>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 @section('script')
 <script>
-   
+    document.addEventListener("DOMContentLoaded", function() {
+        const btn = document.getElementById("recreacionalBtn");
+        const panel = document.getElementById("panelRecreacional");
+
+        btn.addEventListener("click", function() {
+            panel.style.display = (panel.style.display === "none" || panel.style.display === "") ? "block" : "none";
+        });
+    });
 document.addEventListener('DOMContentLoaded', function() {
     // Mapeo de categorías
     const CATEGORY_MAP = {
@@ -665,6 +600,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 shouldShow = true;
             } else if (category === 'hoy') {
                 shouldShow = isAvailableToday;
+          } else if (category === 'Plan Recreacional') {
+            shouldShow = itemCategory === 'Plan Recreacional';
             } else {
                 shouldShow = itemCategory === category;
             }

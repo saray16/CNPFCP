@@ -26,8 +26,14 @@ class Inscripcion extends Model
         'anio',
         'facilitador',
         'codigo_facilitador',
+       'aprobado_por_facilitador',
+       'aprobado_por_admin',
+      'fecha_aprobacion_facilitador',
+          'fecha_aprobacion_admin',
+        'facilitador_id',
         'estado_formacion',
-        'formacion_id', // nuevo campo
+        'formacion_id', 
+        'certificado_pdf_path', 
     ];
 
     public function user()
@@ -63,6 +69,10 @@ public function getTipoFormacionTextoAttribute()
         'D' => 'Diplomado',
         default => 'N/A'
     };
+}
+public function facilitador()
+{
+    return $this->belongsTo(User::class, 'facilitador_id');
 }
     
 }

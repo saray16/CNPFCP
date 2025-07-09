@@ -40,7 +40,28 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <a href="{{ route('facilitador.evaluate.form', $inscripcion->id) }}" class="btn btn-primary btn-sm">
+                                            @if(is_null($inscripcion->aprobado_por_facilitador))
+                                                <div class="btn-group">
+                                                    <form action="{{ route('facilitador.aprobar', $inscripcion->id) }}" method="POST">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-sm btn-success">Aprobar</button>
+                                                    </form>
+                                                    <form action="{{ route('facilitador.rechazar', $inscripcion->id) }}" method="POST">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-sm btn-danger">Rechazar</button>
+                                                    </form>
+                                                </div>
+                                            @else
+                                                <span class="badge bg-{{ $inscripcion->aprobado_por_facilitador ? 'success' : 'danger' }}">
+                                                    {{ $inscripcion->aprobado_por_facilitador ? 'Aprobado' : 'Rechazado' }}
+                                                </span>
+                                                @if($inscripcion->facilitador)
+                                                    <br><small>Por: {{ $inscripcion->facilitador->name }}</small>
+                                                @endif
+                                            @endif
+                                            
+                                            <!-- Manteniendo tu botón de evaluar original -->
+                                            <a href="{{ route('facilitador.evaluate.form', $inscripcion->id) }}" class="btn btn-primary btn-sm mt-1">
                                                 Evaluar
                                             </a>
                                         </td>
