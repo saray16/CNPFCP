@@ -15,7 +15,7 @@ class Inscripcion extends Model
         'user_id',
         'nombre',
         'cedula',
-        'estado', // ubicación
+        'estado',
         'taller',
         'curso',
         'diplomado',
@@ -26,14 +26,23 @@ class Inscripcion extends Model
         'anio',
         'facilitador',
         'codigo_facilitador',
-       'aprobado_por_facilitador',
-       'aprobado_por_admin',
-      'fecha_aprobacion_facilitador',
-          'fecha_aprobacion_admin',
+        'aprobado_por_facilitador',
+        'aprobado_por_admin',
+        'fecha_aprobacion_facilitador',
+        'fecha_aprobacion_admin',
         'facilitador_id',
         'estado_formacion',
         'formacion_id', 
         'certificado_pdf_path', 
+         'comentarios',
+         'nota',
+         'modulo',
+         'fecha_finalizacion',
+         'certificado_url',
+         
+
+
+    
     ];
 
     public function user()
@@ -49,6 +58,10 @@ class Inscripcion extends Model
     public function formacion()
     {
         return $this->belongsTo(Formacion::class, 'formacion_id');
+    }
+        public function facilitador()
+    {
+        return $this->belongsTo(User::class, 'facilitador_id');
     }
 // En app/Models/Inscripcion.php
 public function getNombreFormacionAttribute()
@@ -70,9 +83,5 @@ public function getTipoFormacionTextoAttribute()
         default => 'N/A'
     };
 }
-public function facilitador()
-{
-    return $this->belongsTo(User::class, 'facilitador_id');
-}
-    
+   
 }

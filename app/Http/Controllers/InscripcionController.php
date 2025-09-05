@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Inscripcion;
+use App\Models\ActividadRecreacional;
 use App\Models\Formacion;
 
 class InscripcionController extends Controller
@@ -19,14 +20,23 @@ class InscripcionController extends Controller
     $diplomados = Formacion::where('tipo', 'D')->get();
 
     // Si viene de la página de formaciones, mostrar esa formación específica
-    $formacion = null;
+       $formacion = null;
+    $actividadRecreacional = null;
+    
     if ($tipo && $formacion_id) {
-        $formacion = Formacion::where('tipo', $tipo)->find($formacion_id);
+        if ($tipo === 'R') {
+            // Es una actividad recreacional
+            $actividadRecreacional = ActividadRecreacional::find($formacion_id);
+        } else {
+            // Es una formación normal (Taller, Curso o Diplomado)
+            $formacion = Formacion::where('tipo', $tipo)->find($formacion_id);
+        }
     }
 
     return view('inscripcion', [
         'tipoSeleccionado' => $tipo,
         'formacion' => $formacion,
+         'actividadRecreacional' => $actividadRecreacional,
         'talleres' => $talleres,
         'cursos' => $cursos,
         'diplomados' => $diplomados,
@@ -47,6 +57,7 @@ class InscripcionController extends Controller
         'tipo_formacion' => 'required|string|in:T,C,D',
         'facilitador' => 'nullable|string',
         'codigo_facilitador' => 'nullable|string',
+            'formacion_id' => 'nullable|integer',
     ]);
 
     // Determinar qué formación se seleccionó

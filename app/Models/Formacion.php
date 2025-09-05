@@ -20,7 +20,7 @@ class Formacion extends Model
         'disponible',
         'disponible_hoy',
         'icono',
-       'facilitador_id',
+       'facilitador',
         'codigo', 
         'created_at',
         'updated_at'

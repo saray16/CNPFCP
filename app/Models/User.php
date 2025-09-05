@@ -8,6 +8,9 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
+    const ROLE_ADMIN = 'admin';
+    const ROLE_FACILITADOR = 'facilitador';
+    const ROLE_USUARIO = 'usuario';
     use HasFactory, Notifiable;
 
     protected $fillable = [
@@ -26,7 +29,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-
+   public function formacionesComoFacilitador()
+    {
+        return $this->belongsToMany(Formacion::class, 'formacion_facilitador', 'user_id', 'formacion_id')
+            ->withTimestamps();
+    }
     // -------------------------------
     // MÉTODOS DE AYUDA PARA LOS ROLES
     // -------------------------------

@@ -10,55 +10,33 @@ use App\Models\ActividadRecreacional;
 
 class FormacionController extends Controller
 {
-    public function index()
+public function index()
 {
-    // Obtener las formaciones normales
+    // Obtener formaciones por tipo
     $talleres = Formacion::where('tipo', 'T')
-        ->disponibles()
         ->orderBy('disponible_hoy', 'desc')
         ->orderBy('created_at', 'desc')
         ->get(['id', 'nombre', 'tipo', 'descripcion', 'facilitador', 'categoria', 'duracion', 'disponible_hoy', 'icono']);
 
     $cursos = Formacion::where('tipo', 'C')
-        ->disponibles()
         ->orderBy('disponible_hoy', 'desc')
         ->orderBy('created_at', 'desc')
         ->get(['id', 'nombre', 'tipo', 'descripcion', 'facilitador', 'categoria', 'duracion', 'disponible_hoy', 'icono']);
 
     $diplomados = Formacion::where('tipo', 'D')
-        ->disponibles()
         ->orderBy('disponible_hoy', 'desc')
         ->orderBy('created_at', 'desc')
         ->get(['id', 'nombre', 'tipo', 'descripcion', 'facilitador', 'categoria', 'duracion', 'disponible_hoy', 'icono']);
 
-    // Obtener actividades recreacionales y convertirlas en formaciones
-    $actividadesRecreacionales = ActividadRecreacional::orderBy('fecha')
-        ->orderBy('hora_inicio')
-        ->get();
+    // Actividades recreacionales
+    $actividadesRecreacionales = ActividadRecreacional::orderBy('fecha_inicio', 'asc')
+    ->orderBy('horario', 'asc') // o la columna correcta que tengas para ordenar el horario
+    ->get();
 
-    // Agregar actividades recreacionales como talleres
-    foreach ($actividadesRecreacionales as $actividad) {
-        $talleres->push((object)[
-            'id' => $actividad->id,
-            'nombre' => $actividad->nombre,
-            'descripcion' => $actividad->tipo . ' para ' . $actividad->rango_edad,
-            'tipo' => 'T',
-            'categoria' => 'Plan Recreacional',
-            'duracion' => $actividad->horas_formacion,
-            'disponible_hoy' => true,
-            'fecha' => $actividad->fecha,
-            'hora_inicio' => $actividad->hora_inicio,
-            'hora_fin' => $actividad->hora_fin,
-            'rango_edad' => $actividad->rango_edad,
-            'semana' => $actividad->semana,
-            'icono' => 'bi-emoji-smile',
-            'rating' => '5.0',
-            'facilitador' => null // O puedes agregar un facilitador si lo necesitas
-        ]);
-    }
 
     return view('welcome', compact('talleres', 'cursos', 'diplomados', 'actividadesRecreacionales'));
 }
+
 
     public function show($id)
     {
@@ -80,8 +58,15 @@ class FormacionController extends Controller
         $query->where('categoria', $categoria);
     }
 
-    $formaciones = $query->paginate(6);
-    return view('formaciones.index', compact('formaciones', 'categoria'));
+      $formaciones = $query->paginate(6);
+    
+    // Obtener actividades recreacionales para pasarlas a la vista
+    $actividadesRecreacionales = ActividadRecreacional::orderBy('fecha_inicio', 'asc')
+    ->orderBy('horario', 'asc')
+    ->get();
+    
+    return view('formaciones.index', compact('formaciones', 'categoria', 'actividadesRecreacionales'));
+
 }
 public function store(Request $request)
 {
@@ -137,7 +122,10 @@ public function store(Request $request)
     }
 
    public function update(Request $request, $id)
+
 {
+     $request->headers->set('Accept', 'application/json');
+
     $validated = $request->validate([
         'nombre' => 'required|string|max:255',
         'descripcion' => 'required|string',
@@ -162,18 +150,20 @@ public function store(Request $request)
             'icono' => $this->getIconForCategory($validated['categoria']),
         ]);
 
+
         return response()->json([
             'success' => true,
             'message' => 'Formación actualizada exitosamente',
             'data' => $formacion
-        ], 200, ['Content-Type' => 'application/json;charset=UTF-8'], JSON_UNESCAPED_UNICODE);
+        ]);
 
     } catch (\Exception $e) {
-        Log::error('Error al actualizar formación: ' . $e->getMessage());
+        Log::error('Error al actualizar formación: '.$e->getMessage());
         return response()->json([
             'success' => false,
-            'message' => 'Error al actualizar la formación: ' . $e->getMessage()
-        ], 500, ['Content-Type' => 'application/json;charset=UTF-8'], JSON_UNESCAPED_UNICODE);
+            'message' => 'Error al actualizar la formación',
+            'error' => $e->getMessage()
+        ], 500);
     }
 }
     public function destroy($id)

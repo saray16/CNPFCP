@@ -28,7 +28,6 @@ class Kernel extends HttpKernel
     ];
 
 protected $routeMiddleware = [
-    'facilitador' => \App\Http\Middleware\FacilitadorMiddleware::class,
     'auth' => \App\Http\Middleware\Authenticate::class,
     'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
     'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
@@ -40,8 +39,7 @@ protected $routeMiddleware = [
     'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
     'admin' => \App\Http\Middleware\AdminMiddleware::class, 
    'check.rol' => \App\Http\Middleware\CheckRolMiddleware::class,
-'test' => \App\Http\Middleware\TestMiddleware::class,
-
+       'facilitador' => \App\Http\Middleware\RolFacilitador::class,
 
 ];
     

@@ -21,7 +21,7 @@ class HomeController extends Controller
         $cursos = $this->getFormacionesPorTipo('Curso');
         $diplomados = $this->getFormacionesPorTipo('Diplomado');
 
-        return view('welcome', compact('talleres', 'cursos', 'diplomados', 'categorias'));
+        return view('welcome', compact('talleres', 'cursos', 'diplomados', 'categorias',));
     }
 
     protected function getFormacionesPorTipo($tipo)

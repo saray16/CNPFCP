@@ -16,9 +16,19 @@ class AdminController extends Controller
         $usuarios = User::all();
         $totalUsuarios = $usuarios->count();
         $control_estudio = DB::table('control_de_estudios')->take(10)->get();
-        $inscripciones = Inscripcion::all();
-        return view('dashboard', compact('usuarios', 'control_estudio', 'totalUsuarios', 'inscripciones'));
-    }
+        $inscripciones = Inscripcion::whereIn('estado_formacion', [
+            'pendiente_admin', 
+            'rechazado_facilitador', 
+            'aprobado', 
+            'rechazado_admin'
+        ])
+        ->with(['user']) // Cargar relación user si existe
+        ->latest()
+        ->get();
+        
+         $actividades = \App\Models\ActividadRecreacional::with('participantes')->get();
+    return view('dashboard', compact('usuarios', 'control_estudio', 'totalUsuarios', 'inscripciones'));
+}
 
     public function create(Request $request)
     {
@@ -108,33 +118,41 @@ class AdminController extends Controller
 
         return redirect()->route('admin.dashboard')->with('success', 'Certificado PDF actualizado correctamente.');
     }
+
 public function aprobarInscripcion($id)
 {
     $inscripcion = Inscripcion::findOrFail($id);
+    
+    // Validar que el facilitador ya lo aprobó
+  //  if($inscripcion->aprobado_por_facilitador !== true) {
+      //  return back()->with('error', 'El facilitador debe aprobar primero esta inscripción');
+   // }
 
-    // Solo permite aprobar si el facilitador ya aprobó
-    if ($inscripcion->aprobado_por_facilitador !== true) {
-        return redirect()->back()->with('error', 'El facilitador aún no ha aprobado este certificado.');
-    }
+    $inscripcion->update([
+        'aprobado_por_admin' => true,
+        'fecha_aprobacion_admin' => now(),
+        'estado_formacion' => 'aprobado' // Estado final
+    ]);
 
-    $inscripcion->estado_formacion = 'aprobado';
-    $inscripcion->aprobado_por_admin = true;
-    $inscripcion->save();
-
-    return redirect()->back()->with('success', 'Inscripción aprobada correctamente.');
+    return back()->with('success', 'Certificado aprobado. El usuario puede descargarlo ahora.');
 }
 
-public function rechazarInscripcion($id)
+
+public function rechazarInscripcion($id, Request $request)
 {
+    $request->validate(['motivo' => 'required|string|max:500']);
+    
     $inscripcion = Inscripcion::findOrFail($id);
 
-    // Puedes decidir si quieres permitir rechazar aunque el facilitador no haya aprobado
-    $inscripcion->estado_formacion = 'rechazado';
-    $inscripcion->aprobado_por_admin = false;
-    $inscripcion->save();
+    $inscripcion->update([
+        'aprobado_por_admin' => false,
+        'fecha_aprobacion_admin' => now(),
+        'comentarios_rechazo_admin' => $request->motivo,
+        'comentarios_rechazo_facilitador' => null, // Limpiar comentario previo de facilitador si existía
+        'estado_formacion' => 'rechazado_admin'
+    ]);
 
-    return redirect()->back()->with('success', 'Inscripción rechazada correctamente.');
+    return back()->with('success', 'Inscripción rechazada. El usuario será notificado.');
 }
-
 
 }

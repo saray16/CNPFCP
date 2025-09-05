@@ -6,9 +6,8 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class FacilitadorMiddleware
+class RolFacilitador
 {
-    
     public function handle(Request $request, Closure $next): Response
     {
         if (auth()->check() && auth()->user()->rol === 'facilitador') {

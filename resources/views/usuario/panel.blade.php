@@ -102,9 +102,8 @@
                                         </td>
                                         <td class="py-3 px-4 text-end">
                                             @if($inscripcion->estado_formacion == 'aprobado')
-<<<<<<< HEAD
+
                                                 <a href="#" class="btn btn-sm btn-outline-primary">
-=======
                                                 @php
                                                     // Determinar el tipo de formación para la URL
                                                     $tipo = '';

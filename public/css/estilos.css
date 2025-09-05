@@ -1029,3 +1029,29 @@ footer {
     background-color: #28a745;
     color: white;
 }
+/* En tu sección de estilos */
+#participantesModal .table {
+    font-size: 0.9rem;
+}
+
+#participantesModal .table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+}
+
+#participantesModal .table-hover tbody tr:hover {
+    background-color: rgba(75, 192, 200, 0.1);
+}
+
+#participantesModal .modal-body {
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+#totalParticipantes {
+    font-weight: 500;
+    color: #2c3e50;
+}

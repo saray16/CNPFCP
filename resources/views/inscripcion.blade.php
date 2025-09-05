@@ -43,7 +43,35 @@
                 </div>
             @endif
 <!-- Después de las alertas y antes del formulario -->
-@if(isset($formacion) && $formacion)
+@if(isset($actividadRecreacional) && $actividadRecreacional)
+<div class="card mb-4 shadow-sm" id="formacion-details" style="max-width: 700px; margin: auto; border: 1px solid #dbe9f6; background-color: #f8fbfd;">
+    <div class="card-header" style="background-color: #1e3a8a; color: #fff; padding: 0.75rem 1rem;">
+        <h5 class="mb-0 fw-semibold">Detalles de la Actividad Recreacional</h5>
+    </div>
+    <div class="card-body py-3 px-4 d-flex flex-wrap align-items-center gap-3" style="background-color: #e6f0fa;">
+        <div class="flex-grow-1">
+            <h4 class="mb-1" id="formacion-nombre" style="color: #1e40af; font-size: 1.25rem;">{{ $actividadRecreacional->nombre }}</h4>
+            <div class="d-flex flex-wrap gap-2 mb-2">
+                <span class="badge bg-primary">{{ $actividadRecreacional->tipo }}</span>
+                <span class="badge bg-secondary">{{ $actividadRecreacional->edades }}</span>
+            </div>
+            <div class="text-muted small">
+                <div><i class="bi bi-calendar me-1"></i> {{ $actividadRecreacional->fecha_inicio }} - {{ $actividadRecreacional->fecha_fin }}</div>
+                <div><i class="bi bi-clock me-1"></i> {{ $actividadRecreacional->horario }}</div>
+                <div><i class="bi bi-geo-alt me-1"></i> {{ $actividadRecreacional->espacio }}</div>
+            </div>
+        </div>
+        <div class="facilitador-card p-3 rounded border d-flex align-items-center" style="min-width: 220px; background-color: #f1f5f9; border-color: #cbd5e1;">
+            <i class="fas fa-chalkboard-teacher" style="color: #2563eb; font-size: 1.25rem; margin-right: 0.75rem;"></i>
+            <div>
+                <h6 class="mb-0 fw-semibold" id="formacion-facilitador" style="font-size: 1rem; color: #1e3a8a;">{{ $actividadRecreacional->facilitador ?? 'Por asignar' }}</h6>
+                <small style="font-size: 0.8rem; color: #6b7280;">Actividad Recreacional</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+@elseif(isset($formacion) && $formacion)
 <div class="card mb-4 shadow-sm" id="formacion-details" style="max-width: 700px; margin: auto; border: 1px solid #dbe9f6; background-color: #f8fbfd;">
     <div class="card-header" style="background-color: #1e3a8a; color: #fff; padding: 0.75rem 1rem;">
         <h5 class="mb-0 fw-semibold">Detalles de la Formación</h5>
@@ -186,11 +214,20 @@
                                             <i class="bi bi-award me-2"></i> Diplomado
                                         </label>
                                     </div>
-                                </div>
-                                <div class="invalid-feedback d-block">
-                                    Por favor seleccione un tipo de formación
-                                </div>
-                            </div>
+                               @if(isset($actividadRecreacional))
+        <div class="form-check-card">
+            <input class="form-check-input" type="radio" name="tipo_formacion" id="tipo_recreacional" value="R" 
+                {{ old('tipo_formacion') == 'R' ? 'checked' : 'checked' }} disabled>
+            <label class="form-check-label" for="tipo_recreacional">
+                <i class="bi bi-emoji-smile me-2"></i> Actividad Recreacional
+            </label>
+        </div>
+        @endif
+    </div>
+    <div class="invalid-feedback d-block">
+        Por favor seleccione un tipo de formación
+    </div>
+</div>
 
                             <!-- Selects dinámicos -->
                           <div class="row g-3">

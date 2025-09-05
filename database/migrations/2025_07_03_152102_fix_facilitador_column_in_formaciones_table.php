@@ -12,8 +12,8 @@ return new class extends Migration
 public function up()
 {
     Schema::table('formaciones', function (Blueprint $table) {
-        $table->dropColumn('facilitador');
-        $table->foreignId('facilitador_id')->nullable()->constrained('users');
+        $table->unsignedBigInteger('facilitador_id')->nullable()->after('disponible_hoy');
+        $table->foreign('facilitador_id')->references('id')->on('users')->onDelete('cascade');
     });
 }
 
