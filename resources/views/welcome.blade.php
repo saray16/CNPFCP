@@ -200,10 +200,11 @@
 </div>
 
 <!-- Botón Ver Participantes FUERA del formulario -->
-<button class="btn btn-sm btn-outline-info w-100 mt-2 view-participants-btn" 
+<button class="btn btn-sm btn-outline-info w-100 mt-2 view-participants-btn buttonsToParticipantes" 
         type="button"
         data-bs-toggle="modal" 
         data-bs-target="#participantesModal"
+        data-id="{{ $actividad->id }}"
         data-activity-id="{{ $actividad->id }}"
         onclick="event.stopPropagation()">
     <i class="bi bi-people-fill me-1"></i> Ver Participantes
@@ -767,10 +768,8 @@
                         <thead class="table-light sticky-thead">
                             <tr>
                                 <th>#</th>
-                                <th>NOMBRE COMPLETO</th>
-                                <th>AÑO</th>
-                                <th>FECHA INSCRIPCIÓN</th>
-                                <th>ID</th>
+                                <th>Nombre del Participante</th>
+                                <th>Edad</th>
                             </tr>
                         </thead>
                         <tbody id="participantesTableBody">
@@ -791,6 +790,7 @@
         </div>
     </div>
 </div>
+
 @endsection
 
 @section('styles')
@@ -1564,7 +1564,8 @@
 
         // CONFIGURACIÓN CORREGIDA DEL MODAL DE PARTICIPANTES
        // CONFIGURACIÓN CORREGIDA DEL MODAL DE PARTICIPANTES
-const participantesModal = document.getElementById('participantesModal');
+    const participantesModal = document.getElementById('participantesModal');
+
 if (participantesModal) {
     let participantesData = []; // Almacenar los datos para exportación
     
@@ -1576,109 +1577,6 @@ if (participantesModal) {
         // Actualizar título del modal
         document.getElementById('modalActividadTitle').textContent = activityName;
         
-        // Mostrar spinner de carga
-        const tableBody = document.getElementById('participantesTableBody');
-        tableBody.innerHTML = `
-            <tr>
-                <td colspan="5" class="text-center py-4">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Cargando...</span>
-                    </div>
-                    <p class="mt-2">Cargando participantes...</p>
-                </td>
-            </tr>
-        `;
-        
-        try {
-            // Obtener los participantes desde el servidor
-            const response = await fetch(`/api/actividades/${activityId}/participantes`);
-            const data = await response.json();
-            
-            if (!response.ok) {
-                throw new Error(data.message || 'Error al cargar los participantes');
-            }
-            
-            // CORRECCIÓN: Verificar y procesar los datos para evitar duplicados
-            let participantes = data.participantes || [];
-            participantesData = []; // Reiniciar datos para exportación
-            
-            let participantesUnicos = [];
-            let idsVistos = new Set();
-            
-            // Filtrar participantes duplicados
-            participantes.forEach(participante => {
-                const participanteId = participante.ID || participante.id || 
-                                     participante.cedula || participante.documento;
-                if (participanteId && !idsVistos.has(participanteId)) {
-                    idsVistos.add(participanteId);
-                    participantesUnicos.push(participante);
-                    
-                    // Guardar datos para exportación
-                    participantesData.push({
-                        numero: participantesUnicos.length,
-                        nombre: participante['NOMBRE COMPLETO'] || participante.nombre_completo || participante.nombre || 'N/A',
-                        año: participante.ARO || participante.ano || participante.year || 'N/A',
-                        fecha: participante['FECHA INSCENPICON'] || participante.fecha_inscripcion || participante.fecha || 'N/A',
-                        id: participanteId
-                    });
-                }
-            });
-            
-            // Actualizar la tabla con los participantes únicos
-            if (participantesUnicos.length > 0) {
-                let html = '';
-                participantesUnicos.forEach((participante, index) => {
-                    // Usar datos seguros con valores por defecto
-                    const nombreCompleto = participante['NOMBRE COMPLETO'] || 
-                                         participante.nombre_completo || 
-                                         participante.nombre || 'N/A';
-                    
-                    const año = participante.ARO || participante.ano || participante.year || 'N/A';
-                    const fechaInscripcion = participante['FECHA INSCENPICON'] || 
-                                           participante.fecha_inscripcion || 
-                                           participante.fecha || 'N/A';
-                    const idUnico = participante.ID || participante.id || (index + 1);
-                    
-                    html += `
-                        <tr>
-                            <td>${index + 1}</td>
-                            <td>${nombreCompleto}</td>
-                            <td>${año}</td>
-                            <td>${fechaInscripcion}</td>
-                            <td>${idUnico}</td>
-                        </tr>
-                    `;
-                });
-                tableBody.innerHTML = html;
-            } else {
-                tableBody.innerHTML = `
-                    <tr>
-                        <td colspan="5" class="text-center py-4">
-                            <i class="bi bi-people-slash fs-1 text-muted"></i>
-                            <p class="mt-2">No hay participantes inscritos aún</p>
-                        </td>
-                    </tr>
-                `;
-            }
-            
-            // Actualizar el contador total con participantes únicos
-            const totalUnicos = participantesUnicos.length;
-            document.getElementById('totalParticipantes').textContent = 
-                `Total: ${totalUnicos} participante${totalUnicos !== 1 ? 's' : ''}`;
-                
-        } catch (error) {
-            console.error('Error:', error);
-            tableBody.innerHTML = `
-                <tr>
-                    <td colspan="5" class="text-center py-4 text-danger">
-                        <i class="bi bi-exclamation-triangle-fill"></i>
-                        <p class="mt-2">${error.message}</p>
-                    </td>
-                </tr>
-            `;
-            document.getElementById('totalParticipantes').textContent = 'Error al cargar';
-            participantesData = []; // Limpiar datos de exportación
-        }
     });
     
     // Función de búsqueda
@@ -1756,10 +1654,75 @@ if (participantesModal) {
         document.getElementById('totalParticipantes').textContent = '';
         document.getElementById('searchParticipantes').value = '';
         participantesData = []; // Limpiar datos
-    });
+     });
 }
         // Inicialización
         filterFormations('all');
     });
+</script>
+
+
+<!-- Parte para mostrar los participantes -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    const buttonsToParticipantes = document.querySelectorAll('.buttonsToParticipantes');
+
+    buttonsToParticipantes.forEach(button =>{
+        button.addEventListener('click', function(){
+            const id_button_to_activity = this.getAttribute('data-id');
+            axios.get(`/participantes-recreacionales/${id_button_to_activity}`)
+                .then(response => {
+                    llenarTablaParticipantes(response.data.participantes);
+                    console.log('DATOS:', response.data);
+                    console.log('PARTICIPANTES:', response.data.participantes);
+                })
+                .catch(() => {
+                    console.log('Error en la petición');
+                });
+        });
+    });
+
+    // Función para llenar la tabla
+    function llenarTablaParticipantes(participantes) {
+        const tbody = document.getElementById('participantesTableBody');
+
+        // Limpiar tabla primero
+        tbody.innerHTML = '';
+
+        // Verificar si hay participantes
+        if (participantes.length === 0) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="3" class="text-center">No hay participantes registrados</td>
+                </tr>
+            `;
+            return;
+        }
+
+        // Llenar con los datos
+        participantes.forEach((participanteActividad, index) => {
+            const fila = document.createElement('tr');
+
+            fila.innerHTML = `
+                <td>${index + 1}</td>
+                <td>${participanteActividad.participante.nombre_apellido}</td>
+                <td>${participanteActividad.participante.edad}</td>
+            `;
+
+            tbody.appendChild(fila);
+        });
+    }
+
+    // Función para formatear fechas
+    function formatearFecha(fechaString) {
+        const fecha = new Date(fechaString);
+        return fecha.toLocaleDateString('es-ES', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    }
 </script>
 @endsection
