@@ -1,4 +1,6 @@
-@extends('layouts.app') @section('title', 'Quiénes Somos - CENAMEC') @section('content')
+@extends('layouts.app') 
+@section('title', 'Quiénes Somos - CENAMEC') 
+@section('content')
 
 <!-- Hero Section -->
 <section class="hero-about py-7 position-relative overflow-hidden">
@@ -7,7 +9,7 @@
 			<div class="col-lg-6 pe-lg-5">
 				<h1 class="display-4 fw-bold mb-4 text-white">Transformando la educación científica en Venezuela</h1>
 				<p class="lead mb-5 text-white opacity-75">
-					Desde 1985, CENAMEC ha sido el pilar fundamental en la formación docente y el desarrollo de metodologías innovadoras para la enseñanza de las ciencias.
+					Líderes en innovación educativa e investigación científica para el desarrollo nacional
 				</p>
 
 				<!-- Estadísticas destacadas -->
@@ -20,15 +22,19 @@
 						<div class="stat-number display-5 fw-bold text-white mb-1">50K+</div>
 						<div class="stat-label text-white opacity-85">Docentes formados</div>
 					</div>
-					<div class="stat-item ps-4">
-						<!-- Espacio reservado para contenido adicional si se requiere -->
+					<div class="stat-card ms-3 mb-3">
+						<div class="stat-number display-5 fw-bold text-white mb-1">24</div>
+						<div class="stat-label text-white opacity-85">Estados cubiertos</div>
 					</div>
 				</div>
 			</div>
 			<div class="col-lg-6 mt-5 mt-lg-0">
 				<div class="position-relative">
-					<div class="img-wrapper rounded-4 overflow-hidden shadow-lg">
-						<img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Equipo CENAMEC" class="img-fluid">
+					<div class="modern-img-frame">
+						<div class="frame-decoration"></div>
+						<div class="img-wrapper rounded-4 overflow-hidden shadow-lg">
+							<img src="" alt="Equipo CENAMEC" class="img-fluid">
+						</div>
 					</div>
 				</div>
 			</div>
@@ -37,8 +43,8 @@
 	<!-- Formas decorativas -->
 	<div class="hero-shape-1"></div>
 	<div class="hero-shape-2"></div>
+	<div class="geometric-pattern"></div>
 </section>
-
 
 <!-- Sección Sobre CENAMEC con diseño modular -->
 <section class="py-7 bg-white">
@@ -55,7 +61,7 @@
             Innovación educativa desde <span class="text-highlight">1985</span>
           </h2>
 					<p class="lead text-muted mb-4 position-relative">
-						<span class="quote-mark">“</span>El Centro Nacional para el Mejoramiento de la Enseñanza de la Ciencia (CENAMEC) es el referente nacional en la formación docente y desarrollo curricular en ciencias y matemáticas.
+						<span class="quote-mark">"</span>El Centro Nacional para el Mejoramiento de la Enseñanza de la Ciencia (CENAMEC) es una institución venezolana dedicada a la investigación y formación docente en el área científica, contribuyendo al desarrollo educativo del país.
 					</p>
 				</div>
 
@@ -172,9 +178,9 @@
 					<span class="text-muted fs-5">Programas de Formación Continua y Permanente</span>
 				</div>
 			</div>
-			<p>
-
-
+			<p class="lead mx-auto text-dark opacity-75" style="max-width: 700px;">
+				La CNPFCP es el brazo ejecutor de los programas de formación docente de CENAMEC, diseñando e implementando estrategias de capacitación para educadores en todo el territorio nacional.
+			</p>
 		</div>
 
 		<!-- Contenido en dos columnas con timeline visual -->
@@ -322,112 +328,214 @@
 				</div>
 			</div>
 		</div>
-		<!-- Funciones Estratégicas con diseño de tarjetas animadas y gradientes -->
-		<div class="functions-section py-5 bg-light">
-			<div class="container">
-				<div class="section-header text-center mb-5">
-					<h3 class="fw-bold mb-3 text-dark display-5">Nuestras Principales Funciones</h3>
-					<p class="lead mx-auto text-dark opacity-75" style="max-width: 700px;">
-						Áreas de acción estratégica para el desarrollo educativo
-					</p>
-					<div class="divider mx-auto my-4" style="background: linear-gradient(90deg, #2c3e50, #678ca3);"></div>
-				</div>
+		
+		
 
 				<!-- Grid de funciones con animaciones -->
 				<div class="row g-4 functions-grid">
-					<!-- Tarjeta 1 -->
-					<div class="col-md-6 col-lg-3">
-						<div class="function-card card h-100 border-0 shadow-sm hover-lift">
-							<div class="card-body p-4 text-center position-relative">
-								<div class="icon-wrapper rounded-circle mx-auto mb-4" style="background: linear-gradient(145deg, #678ca3, #2c3e50);">
-									<span class="display-6 fw-bold text-white">1</span>
-								</div>
-								<h4 class="mb-3 text-dark">Apoyo a acciones formativas</h4>
-								<p class="text-secondary mb-4">
-									Implementamos programas de formación continua para docentes en ejercicio, respondiendo a las necesidades específicas del Subsistema de Educación Básica.
-								</p>
-								<div class="tags-container mt-auto">
-									<span class="badge bg-white text-dark me-1 mb-1 border">Talleres</span>
-									<span class="badge bg-white text-dark me-1 mb-1 border">Seminarios</span>
-									<span class="badge bg-white text-dark mb-1 border">Diplomados</span>
-								</div>
-							</div>
-						</div>
-					</div>
+				<!-- Sección de Funciones Estratégicas - Diseño Profesional Mejorado -->
+<section class="functions-section py-7 bg-white">
+    <div class="container">
+        <div class="section-header text-center mb-7">
+            <div class="d-flex align-items-center justify-content-center mb-3">
+                <div class="divider-line mx-3"></div>
+                <span class="section-badge">Nuestras Competencias</span>
+                <div class="divider-line mx-3"></div>
+            </div>
+            <h2 class="display-5 fw-bold mb-4 text-dark">Funciones Estratégicas</h2>
+            <p class="lead mx-auto text-muted" style="max-width: 700px;">
+                Áreas de acción especializada para el desarrollo y fortalecimiento del sistema educativo venezolano
+            </p>
+        </div>
 
-					<!-- Tarjeta 2 -->
-					<div class="col-md-6 col-lg-3">
-						<div class="function-card card h-100 border-0 shadow-sm hover-lift animation-delay-1">
-							<div class="card-body p-4 text-center position-relative">
-								<div class="icon-wrapper rounded-circle mx-auto mb-4" style="background: linear-gradient(145deg, #2c3e50, #6c757d);">
-									<span class="display-6 fw-bold text-white">2</span>
-								</div>
-								<h4 class="mb-3 text-dark">Gestión de programas</h4>
-								<p class="text-secondary mb-4">
-									Coordinamos la ejecución de programas formativos en colaboración con la red nacional de centros de investigación y formación.
-								</p>
-								<div class="tags-container mt-auto">
-									<span class="badge bg-white text-dark me-1 mb-1 border">Planificación</span>
-									<span class="badge bg-white text-dark me-1 mb-1 border">Ejecución</span>
-									<span class="badge bg-white text-dark mb-1 border">Seguimiento</span>
-								</div>
-							</div>
-						</div>
-					</div>
+        <!-- Grid de funciones con diseño de tarjetas hexagonales -->
+        <div class="functions-grid">
+            <div class="row g-5 justify-content-center">
+                <!-- Función 1 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="function-card card border-0 shadow-hover">
+                        <div class="card-body p-5 position-relative">
+                            <div class="hexagon-wrapper">
+                                <div class="hexagon-shape">
+                                    <div class="hexagon-inner">
+                                        <i class="fas fa-hands-helping"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <h4 class="mb-4 text-center text-dark">Apoyo a acciones formativas</h4>
+                            <p class="text-secondary mb-4 text-center">
+                                Brindamos el apoyo requerido para llevar a cabo las acciones formativas dirigidas a las trabajadoras y los trabajadores en ejercicio del Sistema Educativo Venezolano.
+                            </p>
+                            <div class="function-tags d-flex flex-wrap justify-content-center">
+                                <span class="badge bg-light text-dark me-2 mb-2 px-3 py-2">Talleres</span>
+                                <span class="badge bg-light text-dark me-2 mb-2 px-3 py-2">Seminarios</span>
+                                <span class="badge bg-light text-dark mb-2 px-3 py-2">Diplomados</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-					<!-- Tarjeta 3 -->
-					<div class="col-md-6 col-lg-3">
-						<div class="function-card card h-100 border-0 shadow-sm hover-lift animation-delay-2">
-							<div class="card-body p-4 text-center position-relative">
-								<div class="icon-wrapper rounded-circle mx-auto mb-4" style="background: linear-gradient(145deg, #6c757d, #678ca3);">
-									<span class="display-6 fw-bold text-white">3</span>
-								</div>
-								<h4 class="mb-3 text-dark">Articulación interinstitucional</h4>
-								<p class="text-secondary mb-4">
-									Establecemos alianzas estratégicas con instituciones para enriquecer la oferta formativa y compartir recursos académicos.
-								</p>
-								<div class="tags-container mt-auto">
-									<span class="badge bg-white text-dark me-1 mb-1 border">Alianzas</span>
-									<span class="badge bg-white text-dark me-1 mb-1 border">Convenios</span>
-									<span class="badge bg-white text-dark mb-1 border">Redes</span>
-								</div>
-							</div>
-						</div>
-					</div>
+                <!-- Función 2 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="function-card card border-0 shadow-hover">
+                        <div class="card-body p-5 position-relative">
+                            <div class="hexagon-wrapper">
+                                <div class="hexagon-shape">
+                                    <div class="hexagon-inner">
+                                        <i class="fas fa-tasks"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <h4 class="mb-4 text-center text-dark">Gestión de programas</h4>
+                            <p class="text-secondary mb-4 text-center">
+                                Gestionamos los programas de formación articulando con la Dirección General de Investigación y Formación, Zonas Educativas, CRIF y CLIF.
+                            </p>
+                            <div class="function-tags d-flex flex-wrap justify-content-center">
+                                <span class="badge bg-light text-dark me-2 mb-2 px-3 py-2">Planificación</span>
+                                <span class="badge bg-light text-dark me-2 mb-2 px-3 py-2">Ejecución</span>
+                                <span class="badge bg-light text-dark mb-2 px-3 py-2">Seguimiento</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-					<!-- Tarjeta 4 -->
-					<div class="col-md-6 col-lg-3">
-						<div class="function-card card h-100 border-0 shadow-sm hover-lift animation-delay-3">
-							<div class="card-body p-4 text-center position-relative">
-								<div class="icon-wrapper rounded-circle mx-auto mb-4" style="background: linear-gradient(145deg, #678ca3, #6c757d);">
-									<span class="display-6 fw-bold text-white">4</span>
-								</div>
-								<h4 class="mb-3 text-dark">Apoyo institucional</h4>
-								<p class="text-secondary mb-4">
-									Brindamos asesoría y acompañamiento a organismos del Estado en el diseño e implementación de programas de formación.
-								</p>
-								<div class="tags-container mt-auto">
-									<span class="badge bg-white text-dark me-1 mb-1 border">Asesoría</span>
-									<span class="badge bg-white text-dark me-1 mb-1 border">Capacitación</span>
-									<span class="badge bg-white text-dark mb-1 border">Evaluación</span>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+                <!-- Función 3 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="function-card card border-0 shadow-hover">
+                        <div class="card-body p-5 position-relative">
+                            <div class="hexagon-wrapper">
+                                <div class="hexagon-shape">
+                                    <div class="hexagon-inner">
+                                        <i class="fas fa-handshake"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <h4 class="mb-4 text-center text-dark">Articulación interinstitucional</h4>
+                            <p class="text-secondary mb-4 text-center">
+                                Articulamos acciones formativas con diversos entes como UNEXCA, Escuela Nacional de Fiscales, UNES, CONAPDIS, UNEMSR, entre otros.
+                            </p>
+                            <div class="function-tags d-flex flex-wrap justify-content-center">
+                                <span class="badge bg-light text-dark me-2 mb-2 px-3 py-2">Alianzas</span>
+                                <span class="badge bg-light text-dark me-2 mb-2 px-3 py-2">Convenios</span>
+                                <span class="badge bg-light text-dark mb-2 px-3 py-2">Redes</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Función 4 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="function-card card border-0 shadow-hover">
+                        <div class="card-body p-5 position-relative">
+                            <div class="hexagon-wrapper">
+                                <div class="hexagon-shape">
+                                    <div class="hexagon-inner">
+                                        <i class="fas fa-building"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <h4 class="mb-4 text-center text-dark">Apoyo institucional</h4>
+                            <p class="text-secondary mb-4 text-center">
+                                Apoyamos a diferentes organismos y entes del Estado que soliciten acciones formativas para sus trabajadores.
+                            </p>
+                            <div class="function-tags d-flex flex-wrap justify-content-center">
+                                <span class="badge bg-light text-dark me-2 mb-2 px-3 py-2">Asesoría</span>
+                                <span class="badge bg-light text-dark me-2 mb-2 px-3 py-2">Capacitación</span>
+                                <span class="badge bg-light text-dark mb-2 px-3 py-2">Evaluación</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Función 5 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="function-card card border-0 shadow-hover">
+                        <div class="card-body p-5 position-relative">
+                            <div class="hexagon-wrapper">
+                                <div class="hexagon-shape">
+                                    <div class="hexagon-inner">
+                                        <i class="fas fa-project-diagram"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <h4 class="mb-4 text-center text-dark">Gestión de proyectos</h4>
+                            <p class="text-secondary mb-4 text-center">
+                                Promovemos, organizamos y hacemos seguimiento a proyectos y programas de formación para trabajadores de la educación, familia y comunidad.
+                            </p>
+                            <div class="function-tags d-flex flex-wrap justify-content-center">
+                                <span class="badge bg-light text-dark me-2 mb-2 px-3 py-2">Promoción</span>
+                                <span class="badge bg-light text-dark me-2 mb-2 px-3 py-2">Organización</span>
+                                <span class="badge bg-light text-dark mb-2 px-3 py-2">Seguimiento</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Función 6 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="function-card card border-0 shadow-hover">
+                        <div class="card-body p-5 position-relative">
+                            <div class="hexagon-wrapper">
+                                <div class="hexagon-shape">
+                                    <div class="hexagon-inner">
+                                        <i class="fas fa-award"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <h4 class="mb-4 text-center text-dark">Certificación</h4>
+                            <p class="text-secondary mb-4 text-center">
+                                Reconocer y certificar las formaciones realizadas conforme a la evaluación efectuada una vez cumplidos los requerimientos administrativos.
+                            </p>
+                            <div class="function-tags d-flex flex-wrap justify-content-center">
+                                <span class="badge bg-light text-dark me-2 mb-2 px-3 py-2">Reconocimiento</span>
+                                <span class="badge bg-light text-dark me-2 mb-2 px-3 py-2">Certificación</span>
+                                <span class="badge bg-light text-dark mb-2 px-3 py-2">Acreditación</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Función 7 -->
+                <div class="col-md-6 col-lg-4 mx-auto">
+                    <div class="function-card card border-0 shadow-hover">
+                        <div class="card-body p-5 position-relative">
+                            <div class="hexagon-wrapper">
+                                <div class="hexagon-shape">
+                                    <div class="hexagon-inner">
+                                        <i class="fas fa-advisor"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <h4 class="mb-4 text-center text-dark">Asesoría especializada</h4>
+                            <p class="text-secondary mb-4 text-center">
+                                Servir de órgano asesor y de consulta en materias de nuestra competencia para instituciones y organismos educativos.
+                            </p>
+                            <div class="function-tags d-flex flex-wrap justify-content-center">
+                                <span class="badge bg-light text-dark me-2 mb-2 px-3 py-2">Consultoría</span>
+                                <span class="badge bg-light text-dark me-2 mb-2 px-3 py-2">Asesoramiento</span>
+                                <span class="badge bg-light text-dark mb-2 px-3 py-2">Orientación</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
 </section>
 
 @endsection
 
+@push('styles')
 <style>
 	:root {
 	    --primary-color: #2c3e50;
 	    --primary-dark: #1a252f;
 	    --primary-light: rgba(44, 62, 80, 0.1);
 	    --secondary-color: #678ca3;
-	    --accent-color:rgba(27, 54, 88, 0.87);
+	    --accent-color: rgba(27, 54, 88, 0.87);
 	    --text-dark: #2c3e50;
 	    --text-muted: #6c757d;
 	    --light-gray: #f8f9fa;
@@ -436,6 +544,7 @@
 	    --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
 	    --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
 	    --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+	    --transition: all 0.3s ease;
 	  }
 	  
 	  /* Estilos generales */
@@ -470,31 +579,6 @@
 	    z-index: 0;
 	  }
 	  
-	  .badge-ribbon {
-	    position: relative;
-	    display: inline-block;
-	    padding: 6px 15px;
-	    background-color: var(--accent-color);
-	    color: white;
-	    font-weight: 600;
-	    font-size: 14px;
-	    text-transform: uppercase;
-	    letter-spacing: 1px;
-	  }
-	  
-	  .badge-ribbon:after {
-	    content: '';
-	    position: absolute;
-	    top: 100%;
-	    left: 0;
-	    width: 0;
-	    height: 0;
-	    border-style: solid;
-	    border-width: 10px 10px 0 0;
-	    border-color: var(--accent-color) transparent transparent transparent;
-	  }
-	  
-	  /* Marco de imagen moderno */
 	  .modern-img-frame {
 	    position: relative;
 	    padding: 15px;
@@ -597,6 +681,10 @@
 	    transform: skewX(-15deg);
 	  }
 	  
+	  .text-highlight-white:after {
+	    background: rgba(255, 255, 255, 0.3);
+	  }
+	  
 	  .quote-mark {
 	    position: absolute;
 	    top: -20px;
@@ -624,7 +712,6 @@
 	    width: calc(50% - 15px);
 	    position: relative;
 	    z-index: 1;
-	    
 	  }
 	  
 	  .area-card-1 {
@@ -640,7 +727,6 @@
 	    transform: rotate(0deg) translateY(-5px);
 	    box-shadow: var(--shadow-md);
 	    z-index: 2;
-	    
 	  }
 	  
 	  .icon-box {
@@ -1081,8 +1167,9 @@
 	  }
 	  
 	  .certificate-image {
-	    flex: 1;
-	    background: url('https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80') center/cover no-repeat;
+		flex: 1;
+		min-width:405px;
+	    background: url('#') center/cover no-repeat;
 	    position: relative;
 	  }
 	  

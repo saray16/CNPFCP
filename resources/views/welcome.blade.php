@@ -1,13 +1,9 @@
-@extends('layouts.app') 
-@section('title', 'Inicio') 
-@section('content')
-<section class="hero-section hero-fullwidth">
+@extends('layouts.app') @section('title', 'Inicio') @section('content') <section class="hero-section hero-fullwidth">
     <div class="hero-content">
         <h1 class="hero-title">Todas las habilidades que necesitas en un único lugar</h1>
         <p class="hero-subtitle">Desde habilidades esenciales hasta temas técnicos, CENAMEC respalda tu desarrollo profesional</p>
     </div>
 </section>
-
 <section class="py-5" style="background-color: #f8fafc;">
     <div class="container">
         <div class="text-center mb-5">
@@ -15,25 +11,17 @@
             <div class="divider mx-auto" style="width: 80px; height: 4px; background: linear-gradient(90deg, #2c3e50, #678ca3);"></div>
             <p class="lead mt-3" style="color: #678ca3;">Programas diseñados para la excelencia educativa</p>
         </div>
-
         <ul class="nav nav-tabs justify-content-center mb-4" id="formacionesTab" role="tablist">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="talleres-tab" data-bs-toggle="tab" data-bs-target="#talleres" type="button" role="tab" aria-controls="talleres" aria-selected="true" style="color:rgb(80, 44, 44); font-weight: 600;">
-                    Talleres
-                </button>
+                <button class="nav-link active" id="talleres-tab" data-bs-toggle="tab" data-bs-target="#talleres" type="button" role="tab" aria-controls="talleres" aria-selected="true" style="color:rgb(80, 44, 44); font-weight: 600;"> Talleres </button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="cursos-tab" data-bs-toggle="tab" data-bs-target="#cursos" type="button" role="tab" aria-controls="cursos" aria-selected="false" style="color:#808080; font-weight: 600;">
-                    Cursos
-                </button>
+                <button class="nav-link" id="cursos-tab" data-bs-toggle="tab" data-bs-target="#cursos" type="button" role="tab" aria-controls="cursos" aria-selected="false" style="color:#808080; font-weight: 600;"> Cursos </button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="diplomados-tab" data-bs-toggle="tab" data-bs-target="#diplomados" type="button" role="tab" aria-controls="diplomados" aria-selected="false" style="color: #2c3e50; font-weight: 600;">
-                    Diplomados
-                </button>
+                <button class="nav-link" id="diplomados-tab" data-bs-toggle="tab" data-bs-target="#diplomados" type="button" role="tab" aria-controls="diplomados" aria-selected="false" style="color: #2c3e50; font-weight: 600;"> Diplomados </button>
             </li>
         </ul>
-
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-3 col-lg-2 d-md-block sidebar px-0">
@@ -61,22 +49,14 @@
                         </ul>
                     </div>
                 </div>
-
                 <div class="col-md-9">
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="talleres" role="tabpanel" aria-labelledby="talleres-tab">
                             <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
-                                <h2 class="category-title m-0">Talleres Disponibles</h2> 
-                                @auth @if(auth()->user()->rol === 'admin')
-                                <button class="btn btn-success btn-sm add-formation-btn" data-bs-toggle="modal" data-bs-target="#addFormationModal" data-type="T">
-                                    <i class="bi bi-plus-lg me-1"></i> Agregar Taller
-                                </button> 
-                                @endif @endauth
+                                <h2 class="category-title m-0">Talleres Disponibles</h2> @auth @if(auth()->user()->rol === 'admin') <button class="btn btn-success btn-sm add-formation-btn" data-bs-toggle="modal" data-bs-target="#addFormationModal" data-type="T">
+                                    <i class="bi bi-plus-lg me-1"></i> Agregar Taller </button> @endif @endauth
                             </div>
-
-                            <div class="row g-4" id="talleres-container">
-                                @forelse($talleres as $taller)
-                                <div class="col-md-4 mb-4 course-item" data-category="{{ $taller->categoria }}" data-hoy="{{ $taller->disponible_hoy ? 'true' : 'false' }}">
+                            <div class="row g-4" id="talleres-container"> @forelse($talleres as $taller) <div class="col-md-4 mb-4 course-item" data-category="{{ $taller->categoria }}" data-hoy="{{ $taller->disponible_hoy ? 'true' : 'false' }}">
                                     <div class="course-card" onclick="showFormationDetails(event, '{{ $taller->nombre }}', '{{ $taller->descripcion }}', 'Taller', '{{ $taller->categoria }}', '{{ $taller->duracion }}', '{{ $taller->rating ?? '4.5' }}', '{{ $taller->disponible_hoy ? '1' : '0' }}', '{{ $taller->facilitador }}', '{{ $taller->icono }}', 'T', '{{ $taller->id }}')">
                                         <div class="course-img">
                                             <i class="bi {{ $taller->icono }}"></i>
@@ -84,56 +64,31 @@
                                         <div class="course-body">
                                             <h3 class="course-title">{{ $taller->nombre }}</h3>
                                             <p class="course-description">{{ Str::limit($taller->descripcion, 100) }}</p>
-                                            <div class="course-meta">
-                                                @if($taller->duracion)
-                                                <div class="duration-above-rating">
+                                            <div class="course-meta"> @if($taller->duracion) <div class="duration-above-rating">
                                                     <i class="bi bi-clock"></i> {{ $taller->duracion }} horas
-                                                </div>
-                                                @endif
-                                                <span class="course-rating"><i class="bi bi-star-fill"></i> {{ $taller->rating ?? '4.5' }}</span>
+                                                </div> @endif <span class="course-rating"><i class="bi bi-star-fill"></i> {{ $taller->rating ?? '4.5' }}</span>
                                                 <span class="course-price">Gratis</span>
-                                            </div>
-                                            @if($taller->facilitador)
-                                            <div class="facilitador-info mt-2 small">
+                                            </div> @if($taller->facilitador) <div class="facilitador-info mt-2 small">
                                                 <span class="fw-bold">Facilitador:</span>
                                                 <span class="text-primary">{{ $taller->facilitador }}</span>
-                                            </div>
-                                            @endif 
-                                            @auth @if(auth()->user()->rol === 'admin')
-                                            <div class="d-flex gap-2 mt-2" onclick="event.stopPropagation()">
+                                            </div> @endif @auth @if(auth()->user()->rol === 'admin') <div class="d-flex gap-2 mt-2" onclick="event.stopPropagation()">
                                                 <button class="btn btn-sm btn-outline-verde-cenamec flex-grow-1 edit-formation-btn" data-bs-toggle="modal" data-bs-target="#editFormationModal" data-id="{{ $taller->id }}" data-tipo="T" data-nombre="{{ $taller->nombre }}" data-descripcion="{{ $taller->descripcion }}" data-categoria="{{ $taller->categoria }}" data-duracion="{{ $taller->duracion }}" data-disponible="{{ $taller->disponible_hoy ? '1' : '0' }}" data-facilitador="{{ $taller->facilitador }}">
-                                                    <i class="bi bi-pencil-fill"></i> Editar
-                                                </button>
-                                                <form action="{{ route('formaciones.destroy', $taller->id) }}" method="POST" class="flex-grow-1">
-                                                    @csrf @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-outline-danger w-100" onclick="return confirm('¿Estás seguro de eliminar esta formación?')">
-                                                        <i class="bi bi-trash-fill"></i> Eliminar
-                                                    </button>
+                                                    <i class="bi bi-pencil-fill"></i> Editar </button>
+                                                <form action="{{ route('formaciones.destroy', $taller->id) }}" method="POST" class="flex-grow-1"> @csrf @method('DELETE') <button type="submit" class="btn btn-sm btn-outline-danger w-100" onclick="return confirm('¿Estás seguro de eliminar esta formación?')">
+                                                        <i class="bi bi-trash-fill"></i> Eliminar </button>
                                                 </form>
-                                            </div>
-                                            @endif @endauth 
-                                            @if($taller->disponible_hoy)
-                                            <a href="{{ route('inscripcion.formulario', ['tipo' => 'T', 'formacion_id' => $taller->id]) }}" class="btn btn-enroll w-100 py-2 d-flex align-items-center justify-content-center gap-2" onclick="event.stopPropagation()">
+                                            </div> @endif @endauth @if($taller->disponible_hoy) <a href="{{ route('inscripcion.formulario', ['tipo' => 'T', 'formacion_id' => $taller->id]) }}" class="btn btn-enroll w-100 py-2 d-flex align-items-center justify-content-center gap-2" onclick="event.stopPropagation()">
                                                 <i class="fas fa-sign-in-alt"></i>
                                                 <span>Inscribirse</span>
-                                            </a>
-                                            @else
-                                            <button class="btn btn-unavailable w-100 py-2 d-flex align-items-center justify-content-center gap-2" onclick="event.stopPropagation()">
+                                            </a> @else <button class="btn btn-unavailable w-100 py-2 d-flex align-items-center justify-content-center gap-2" onclick="event.stopPropagation()">
                                                 <i class="bi bi-x-circle"></i>
                                                 <span>No Disponible</span>
-                                            </button> 
-                                            @endif
+                                            </button> @endif
                                         </div>
                                     </div>
-                                </div>
-                                @empty
-                                <div class="col-12 text-center py-4">
+                                </div> @empty <div class="col-12 text-center py-4">
                                     <div class="alert alert-info">No hay talleres disponibles en este momento</div>
-                                </div>
-                                @endforelse 
-                                
-                                @foreach($actividadesRecreacionales as $actividad)
-                                <div class="col-md-4 mb-4 course-item" data-category="Plan Recreacional">
+                                </div> @endforelse @foreach($actividadesRecreacionales as $actividad) <div class="col-md-4 mb-4 course-item" data-category="Plan Recreacional">
                                     <div class="course-card recreacional-card">
                                         <div class="course-img recreacional-img" style="background: linear-gradient(135deg, #4bc0c8 0%, #2c3e50 100%);">
                                             <i class="bi bi-emoji-smile text-white" style="font-size: 2.5rem;"></i>
@@ -171,80 +126,33 @@
                                                         <h6 class="mb-0">{{ $actividad->facilitador }}</h6>
                                                     </div>
                                                 </div>
+                                            </div> @auth @if(auth()->user()->rol === 'admin') <div class="d-flex gap-2 mt-3" onclick="event.stopPropagation()">
+                                                <button class="btn btn-sm btn-outline-primary flex-grow-1 edit-recreacional-btn" data-bs-toggle="modal" data-bs-target="#editRecreacionalModal" data-id="{{ $actividad->id }}" data-nombre="{{ $actividad->nombre }}" data-tipo="{{ $actividad->tipo }}" data-edades="{{ $actividad->edades }}" data-espacio="{{ $actividad->espacio }}" data-horario="{{ $actividad->horario }}" data-fecha_inicio="{{ $actividad->fecha_inicio }}" data-fecha_fin="{{ $actividad->fecha_fin }}" data-facilitador="{{ $actividad->facilitador }}" data-cupo_completo="{{ $actividad->cupo_completo ? '1' : '0' }}">
+                                                    <i class="bi bi-pencil-fill"></i> Editar </button>
+                                                <form action="{{ route('actividades-recreacionales.destroy', $actividad->id) }}" method="POST" class="flex-grow-1"> @csrf @method('DELETE') <button type="submit" class="btn btn-sm btn-outline-danger w-100" onclick="return confirm('¿Estás seguro de eliminar esta actividad recreacional?')">
+                                                        <i class="bi bi-trash-fill"></i> Eliminar </button>
+                                                </form>
                                             </div>
-
-                                            @auth @if(auth()->user()->rol === 'admin')
-<div class="d-flex gap-2 mt-3" onclick="event.stopPropagation()">
-    <button class="btn btn-sm btn-outline-primary flex-grow-1 edit-recreacional-btn" 
-            data-bs-toggle="modal" 
-            data-bs-target="#editRecreacionalModal" 
-            data-id="{{ $actividad->id }}" 
-            data-nombre="{{ $actividad->nombre }}" 
-            data-tipo="{{ $actividad->tipo }}" 
-            data-edades="{{ $actividad->edades }}" 
-            data-espacio="{{ $actividad->espacio }}" 
-            data-horario="{{ $actividad->horario }}" 
-            data-fecha_inicio="{{ $actividad->fecha_inicio }}" 
-            data-fecha_fin="{{ $actividad->fecha_fin }}" 
-            data-facilitador="{{ $actividad->facilitador }}"
-            data-cupo_completo="{{ $actividad->cupo_completo ? '1' : '0' }}">
-        <i class="bi bi-pencil-fill"></i> Editar
-    </button>
-    
-    <form action="{{ route('actividades-recreacionales.destroy', $actividad->id) }}" method="POST" class="flex-grow-1">
-        @csrf @method('DELETE')
-        <button type="submit" class="btn btn-sm btn-outline-danger w-100" onclick="return confirm('¿Estás seguro de eliminar esta actividad recreacional?')">
-            <i class="bi bi-trash-fill"></i> Eliminar
-        </button>
-    </form>
-</div>
-
-<!-- Botón Ver Participantes FUERA del formulario -->
-<button class="btn btn-sm btn-outline-info w-100 mt-2 view-participants-btn buttonsToParticipantes" 
-        type="button"
-        data-bs-toggle="modal" 
-        data-bs-target="#participantesModal"
-        data-id="{{ $actividad->id }}"
-        data-activity-id="{{ $actividad->id }}"
-        onclick="event.stopPropagation()">
-    <i class="bi bi-people-fill me-1"></i> Ver Participantes
-</button>
-@endif @endauth
-
-                                            <!-- En la parte de la tarjeta de actividad recreacional, modifica el botón de inscripción: -->
-@if($actividad->cupo_completo)
-    <button class="btn btn-unavailable w-100 mt-2 py-2 d-flex align-items-center justify-content-center gap-2" onclick="event.stopPropagation()">
-        <i class="bi bi-x-circle"></i>
-        <span>Cupo Completo</span>
-    </button>
-@else
-    <a href="{{ route('inscripcion.formulario', ['tipo' => 'R', 'formacion_id' => $actividad->id]) }}" 
-       class="btn btn-primary w-100 mt-2 py-2 d-flex align-items-center justify-content-center gap-2" 
-       onclick="event.stopPropagation()">
-        <i class="fas fa-sign-in-alt"></i>
-        <span>Inscribirse</span>
-    </a>
-@endif
+                                            <!-- Botón Ver Participantes FUERA del formulario -->
+                                            <button class="btn btn-sm btn-outline-info w-100 mt-2 view-participants-btn buttonsToParticipantes" type="button" data-bs-toggle="modal" data-bs-target="#participantesModal" data-id="{{ $actividad->id }}" data-activity-id="{{ $actividad->id }}" onclick="event.stopPropagation()">
+                                                <i class="bi bi-people-fill me-1"></i> Ver Participantes </button> @endif @endauth
+                                            <!-- En la parte de la tarjeta de actividad recreacional, modifica el botón de inscripción: --> @if($actividad->cupo_completo) <button class="btn btn-unavailable w-100 mt-2 py-2 d-flex align-items-center justify-content-center gap-2" onclick="event.stopPropagation()">
+                                                <i class="bi bi-x-circle"></i>
+                                                <span>Cupo Completo</span>
+                                            </button> @else <a href="{{ route('inscripcion.formulario', ['tipo' => 'R', 'formacion_id' => $actividad->id]) }}" class="btn btn-primary w-100 mt-2 py-2 d-flex align-items-center justify-content-center gap-2" onclick="event.stopPropagation()">
+                                                <i class="fas fa-sign-in-alt"></i>
+                                                <span>Inscribirse</span>
+                                            </a> @endif
                                         </div>
                                     </div>
-                                </div>
-                                @endforeach
-                            </div>
+                                </div> @endforeach </div>
                         </div>
-
                         <div class="tab-pane fade" id="cursos" role="tabpanel" aria-labelledby="cursos-tab">
                             <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
-                                <h2 class="category-title m-0">Cursos Disponibles</h2> 
-                                @auth @if(auth()->user()->rol === 'admin')
-                                <button class="btn btn-success btn-sm add-formation-btn" data-bs-toggle="modal" data-bs-target="#addFormationModal" data-type="C">
-                                    <i class="bi bi-plus-lg me-1"></i> Agregar Curso
-                                </button> 
-                                @endif @endauth
+                                <h2 class="category-title m-0">Cursos Disponibles</h2> @auth @if(auth()->user()->rol === 'admin') <button class="btn btn-success btn-sm add-formation-btn" data-bs-toggle="modal" data-bs-target="#addFormationModal" data-type="C">
+                                    <i class="bi bi-plus-lg me-1"></i> Agregar Curso </button> @endif @endauth
                             </div>
-
-                            <div class="row g-4" id="cursos-container">
-                                @forelse($cursos as $curso)
-                                <div class="col-md-4 mb-4 course-item" data-category="{{ $curso->categoria }}" data-hoy="{{ $curso->disponible_hoy ? 'true' : 'false' }}">
+                            <div class="row g-4" id="cursos-container"> @forelse($cursos as $curso) <div class="col-md-4 mb-4 course-item" data-category="{{ $curso->categoria }}" data-hoy="{{ $curso->disponible_hoy ? 'true' : 'false' }}">
                                     <div class="course-card" onclick="showFormationDetails(event, '{{ $curso->nombre }}', '{{ $curso->descripcion }}', 'Curso', '{{ $curso->categoria }}', '{{ $curso->duracion }}', '{{ $curso->rating ?? '4.5' }}', '{{ $curso->disponible_hoy ? '1' : '0' }}', '{{ $curso->facilitador }}', '{{ $curso->icono }}', 'C', '{{ $curso->id }}')">
                                         <div class="course-img">
                                             <i class="bi {{ $curso->icono }}"></i>
@@ -252,69 +160,38 @@
                                         <div class="course-body">
                                             <h3 class="course-title">{{ $curso->nombre }}</h3>
                                             <p class="course-description">{{ Str::limit($curso->descripcion, 100) }}</p>
-                                            <div class="course-meta">
-                                                @if($curso->duracion)
-                                                <div class="duration-above-rating">
+                                            <div class="course-meta"> @if($curso->duracion) <div class="duration-above-rating">
                                                     <i class="bi bi-clock"></i> {{ $curso->duracion }} horas
-                                                </div>
-                                                @endif
-                                                <span class="course-rating"><i class="bi bi-star-fill"></i> {{ $curso->rating ?? '4.5' }}</span>
+                                                </div> @endif <span class="course-rating"><i class="bi bi-star-fill"></i> {{ $curso->rating ?? '4.5' }}</span>
                                                 <span class="course-price">Gratis</span>
-                                            </div>
-                                            @if($curso->facilitador)
-                                            <div class="facilitador-info mt-2 small">
+                                            </div> @if($curso->facilitador) <div class="facilitador-info mt-2 small">
                                                 <span class="fw-bold">Facilitador:</span>
                                                 <span class="text-primary">{{ $curso->facilitador }}</span>
-                                            </div>
-                                            @endif 
-                                            @auth @if(auth()->user()->rol === 'admin')
-                                            <div class="d-flex gap-2 mt-2" onclick="event.stopPropagation()">
+                                            </div> @endif @auth @if(auth()->user()->rol === 'admin') <div class="d-flex gap-2 mt-2" onclick="event.stopPropagation()">
                                                 <button class="btn btn-sm btn-outline-verde-cenamec flex-grow-1 edit-formation-btn" data-bs-toggle="modal" data-bs-target="#editFormationModal" data-id="{{ $curso->id }}" data-tipo="C" data-nombre="{{ $curso->nombre }}" data-descripcion="{{ $curso->descripcion }}" data-categoria="{{ $curso->categoria }}" data-duracion="{{ $curso->duracion }}" data-disponible="{{ $curso->disponible_hoy ? '1' : '0' }}" data-facilitador="{{ $curso->facilitador }}">
-                                                    <i class="bi bi-pencil-fill"></i> Editar
-                                                </button>
-                                                <form action="{{ route('formaciones.destroy', $curso->id) }}" method="POST" class="flex-grow-1">
-                                                    @csrf @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-outline-danger w-100" onclick="return confirm('¿Estás seguro de eliminar esta formación?')">
-                                                        <i class="bi bi-trash-fill"></i> Eliminar
-                                                    </button>
+                                                    <i class="bi bi-pencil-fill"></i> Editar </button>
+                                                <form action="{{ route('formaciones.destroy', $curso->id) }}" method="POST" class="flex-grow-1"> @csrf @method('DELETE') <button type="submit" class="btn btn-sm btn-outline-danger w-100" onclick="return confirm('¿Estás seguro de eliminar esta formación?')">
+                                                        <i class="bi bi-trash-fill"></i> Eliminar </button>
                                                 </form>
-                                            </div>
-                                            @endif @endauth 
-                                            @if($curso->disponible_hoy)
-                                            <a href="{{ route('inscripcion.formulario', ['tipo' => 'C', 'formacion_id' => $curso->id]) }}" class="btn btn-enroll w-100 py-2 d-flex align-items-center justify-content-center gap-2" onclick="event.stopPropagation()">
+                                            </div> @endif @endauth @if($curso->disponible_hoy) <a href="{{ route('inscripcion.formulario', ['tipo' => 'C', 'formacion_id' => $curso->id]) }}" class="btn btn-enroll w-100 py-2 d-flex align-items-center justify-content-center gap-2" onclick="event.stopPropagation()">
                                                 <i class="fas fa-sign-in-alt"></i>
                                                 <span>Inscribirse</span>
-                                            </a>
-                                            @else
-                                            <button class="btn btn-unavailable w-100 py-2 d-flex align-items-center justify-content-center gap-2" onclick="event.stopPropagation()">
+                                            </a> @else <button class="btn btn-unavailable w-100 py-2 d-flex align-items-center justify-content-center gap-2" onclick="event.stopPropagation()">
                                                 <i class="bi bi-x-circle"></i>
                                                 <span>No Disponible</span>
-                                            </button> 
-                                            @endif
+                                            </button> @endif
                                         </div>
                                     </div>
-                                </div>
-                                @empty
-                                <div class="col-12 text-center py-4">
+                                </div> @empty <div class="col-12 text-center py-4">
                                     <div class="alert alert-info">No hay cursos disponibles en este momento</div>
-                                </div>
-                                @endforelse
-                            </div>
+                                </div> @endforelse </div>
                         </div>
-
                         <div class="tab-pane fade" id="diplomados" role="tabpanel" aria-labelledby="diplomados-tab">
                             <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
-                                <h2 class="category-title m-0">Diplomados Disponibles</h2> 
-                                @auth @if(auth()->user()->rol === 'admin')
-                                <button class="btn btn-success btn-sm add-formation-btn" data-bs-toggle="modal" data-bs-target="#addFormationModal" data-type="D">
-                                    <i class="bi bi-plus-lg me-1"></i> Agregar Diplomado
-                                </button> 
-                                @endif @endauth
+                                <h2 class="category-title m-0">Diplomados Disponibles</h2> @auth @if(auth()->user()->rol === 'admin') <button class="btn btn-success btn-sm add-formation-btn" data-bs-toggle="modal" data-bs-target="#addFormationModal" data-type="D">
+                                    <i class="bi bi-plus-lg me-1"></i> Agregar Diplomado </button> @endif @endauth
                             </div>
-
-                            <div class="row g-4" id="diplomados-container">
-                                @forelse($diplomados as $diplomado)
-                                <div class="col-md-4 mb-4 course-item" data-category="{{ $diplomado->categoria }}" data-hoy="{{ $diplomado->disponible_hoy ? 'true' : 'false' }}">
+                            <div class="row g-4" id="diplomados-container"> @forelse($diplomados as $diplomado) <div class="col-md-4 mb-4 course-item" data-category="{{ $diplomado->categoria }}" data-hoy="{{ $diplomado->disponible_hoy ? 'true' : 'false' }}">
                                     <div class="course-card" onclick="showFormationDetails(event, '{{ $diplomado->nombre }}', '{{ $diplomado->descripcion }}', 'Diplomado', '{{ $diplomado->categoria }}', '{{ $diplomado->duracion }}', '{{ $diplomado->rating ?? '4.5' }}', '{{ $diplomado->disponible_hoy ? '1' : '0' }}', '{{ $diplomado->facilitador }}', '{{ $diplomado->icono }}', 'D', '{{ $diplomado->id }}')">
                                         <div class="course-img">
                                             <i class="bi {{ $diplomado->icono }}"></i>
@@ -322,54 +199,31 @@
                                         <div class="course-body">
                                             <h3 class="course-title">{{ $diplomado->nombre }}</h3>
                                             <p class="course-description">{{ Str::limit($diplomado->descripcion, 100) }}</p>
-                                            <div class="course-meta">
-                                                @if($diplomado->duracion)
-                                                <div class="duration-above-rating">
+                                            <div class="course-meta"> @if($diplomado->duracion) <div class="duration-above-rating">
                                                     <i class="bi bi-clock"></i> {{ $diplomado->duracion }} horas
-                                                </div>
-                                                @endif
-                                                <span class="course-rating"><i class="bi bi-star-fill"></i> {{ $diplomado->rating ?? '4.5' }}</span>
+                                                </div> @endif <span class="course-rating"><i class="bi bi-star-fill"></i> {{ $diplomado->rating ?? '4.5' }}</span>
                                                 <span class="course-price">Gratis</span>
-                                            </div>
-                                            @if($diplomado->facilitador)
-                                            <div class="facilitador-info mt-2 small">
+                                            </div> @if($diplomado->facilitador) <div class="facilitador-info mt-2 small">
                                                 <span class="fw-bold">Facilitador:</span>
                                                 <span class="text-primary">{{ $diplomado->facilitador }}</span>
-                                            </div>
-                                            @endif 
-                                            @auth @if(auth()->user()->rol === 'admin')
-                                            <div class="d-flex gap-2 mt-2" onclick="event.stopPropagation()">
+                                            </div> @endif @auth @if(auth()->user()->rol === 'admin') <div class="d-flex gap-2 mt-2" onclick="event.stopPropagation()">
                                                 <button class="btn btn-sm btn-outline-verde-cenamec flex-grow-1 edit-formation-btn" data-bs-toggle="modal" data-bs-target="#editFormationModal" data-id="{{ $diplomado->id }}" data-tipo="D" data-nombre="{{ $diplomado->nombre }}" data-descripcion="{{ $diplomado->descripcion }}" data-categoria="{{ $diplomado->categoria }}" data-duracion="{{ $diplomado->duracion }}" data-disponible="{{ $diplomado->disponible_hoy ? '1' : '0' }}" data-facilitador="{{ $diplomado->facilitador }}">
-                                                    <i class="bi bi-pencil-fill"></i> Editar
-                                                </button>
-                                                <form action="{{ route('formaciones.destroy', $diplomado->id) }}" method="POST" class="flex-grow-1">
-                                                    @csrf @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-outline-danger w-100" onclick="return confirm('¿Estás seguro de eliminar esta formación?')">
-                                                        <i class="bi bi-trash-fill"></i> Eliminar
-                                                    </button>
+                                                    <i class="bi bi-pencil-fill"></i> Editar </button>
+                                                <form action="{{ route('formaciones.destroy', $diplomado->id) }}" method="POST" class="flex-grow-1"> @csrf @method('DELETE') <button type="submit" class="btn btn-sm btn-outline-danger w-100" onclick="return confirm('¿Estás seguro de eliminar esta formación?')">
+                                                        <i class="bi bi-trash-fill"></i> Eliminar </button>
                                                 </form>
-                                            </div>
-                                            @endif @endauth 
-                                            @if($diplomado->disponible_hoy)
-                                            <a href="{{ route('inscripcion.formulario', ['tipo' => 'D', 'formacion_id' => $diplomado->id]) }}" class="btn btn-enroll w-100 py-2 d-flex align-items-center justify-content-center gap-2" onclick="event.stopPropagation()">
+                                            </div> @endif @endauth @if($diplomado->disponible_hoy) <a href="{{ route('inscripcion.formulario', ['tipo' => 'D', 'formacion_id' => $diplomado->id]) }}" class="btn btn-enroll w-100 py-2 d-flex align-items-center justify-content-center gap-2" onclick="event.stopPropagation()">
                                                 <i class="fas fa-sign-in-alt"></i>
                                                 <span>Inscribirse</span>
-                                            </a>
-                                            @else
-                                            <button class="btn btn-unavailable w-100 py-2 d-flex align-items-center justify-content-center gap-2" onclick="event.stopPropagation()">
+                                            </a> @else <button class="btn btn-unavailable w-100 py-2 d-flex align-items-center justify-content-center gap-2" onclick="event.stopPropagation()">
                                                 <i class="bi bi-x-circle"></i>
                                                 <span>No Disponible</span>
-                                            </button> 
-                                            @endif
+                                            </button> @endif
                                         </div>
                                     </div>
-                                </div>
-                                @empty
-                                <div class="col-12 text-center py-4">
+                                </div> @empty <div class="col-12 text-center py-4">
                                     <div class="alert alert-info">No hay diplomados disponibles en este momento</div>
-                                </div>
-                                @endforelse
-                            </div>
+                                </div> @endforelse </div>
                         </div>
                     </div>
                 </div>
@@ -377,7 +231,6 @@
         </div>
     </div>
 </section>
-
 <!-- Modal para agregar actividad recreacional -->
 <div class="modal fade" id="addRecreacionalModal" tabindex="-1" aria-labelledby="addRecreacionalModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -388,9 +241,7 @@
                 </h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="addRecreacionalForm" action="{{ route('actividades-recreacionales.store') }}" method="POST">
-                @csrf
-                <div class="modal-body py-4">
+            <form id="addRecreacionalForm" action="{{ route('actividades-recreacionales.store') }}" method="POST"> @csrf <div class="modal-body py-4">
                     <div class="row g-4">
                         <div class="col-md-6">
                             <div class="form-floating mb-4">
@@ -442,7 +293,6 @@
         </div>
     </div>
 </div>
-
 <!-- Modal para detalles de formación -->
 <div class="modal fade" id="formationDetailsModal" tabindex="-1" aria-labelledby="formationDetailsModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -465,14 +315,12 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col-md-8">
                         <div class="mb-4">
                             <h5 class="section-title border-bottom pb-2">Descripción</h5>
                             <p id="detail-description" class="text-muted mt-2"></p>
                         </div>
-
                         <div class="mb-4">
                             <h5 class="section-title border-bottom pb-2">Requisitos</h5>
                             <ul id="detail-requirements" class="text-muted mt-2">
@@ -481,7 +329,6 @@
                                 <li>Compromiso con el aprendizaje y desarrollo profesional</li>
                             </ul>
                         </div>
-
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <h5 class="section-title border-bottom pb-2">Categoría</h5>
@@ -510,8 +357,7 @@
                                 </div>
                                 <div class="text-center mt-4">
                                     <button class="btn btn-primary w-100" id="detail-enroll-btn">
-                                        <i class="fas fa-sign-in-alt me-1"></i> Inscribirse
-                                    </button>
+                                        <i class="fas fa-sign-in-alt me-1"></i> Inscribirse </button>
                                 </div>
                             </div>
                         </div>
@@ -524,7 +370,6 @@
         </div>
     </div>
 </div>
-
 <!-- Modal para agregar formación -->
 <div class="modal fade" id="addFormationModal" tabindex="-1" aria-labelledby="addFormationModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -535,9 +380,7 @@
                 </h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="addFormationForm" action="{{ route('formaciones.store') }}" method="POST">
-                @csrf
-                <input type="hidden" id="formationType" name="tipo">
+            <form id="addFormationForm" action="{{ route('formaciones.store') }}" method="POST"> @csrf <input type="hidden" id="formationType" name="tipo">
                 <div class="modal-body py-4">
                     <div class="row g-4">
                         <div class="col-md-6">
@@ -597,7 +440,6 @@
         </div>
     </div>
 </div>
-
 <!-- Modal para editar formación -->
 <div class="modal fade" id="editFormationModal" tabindex="-1" aria-labelledby="editFormationModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -608,9 +450,7 @@
                 </h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="editFormationForm" method="POST">
-                @csrf @method('PUT')
-                <input type="hidden" id="editFormationId" name="id">
+            <form id="editFormationForm" method="POST"> @csrf @method('PUT') <input type="hidden" id="editFormationId" name="id">
                 <input type="hidden" id="editFormationType" name="tipo">
                 <div class="modal-body py-4">
                     <div class="row g-4">
@@ -670,7 +510,6 @@
         </div>
     </div>
 </div>
-
 <!-- Modal para editar actividad recreacional -->
 <div class="modal fade" id="editRecreacionalModal" tabindex="-1" aria-labelledby="editRecreacionalModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -681,9 +520,7 @@
                 </h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="editRecreacionalForm" method="POST">
-                @csrf @method('PUT')
-                <input type="hidden" id="editRecreacionalId" name="id">
+            <form id="editRecreacionalForm" method="POST"> @csrf @method('PUT') <input type="hidden" id="editRecreacionalId" name="id">
                 <div class="modal-body py-4">
                     <div class="row g-4">
                         <div class="col-md-6">
@@ -742,7 +579,6 @@
         </div>
     </div>
 </div>
-
 <!-- Modal para ver participantes de actividad recreacional -->
 <!-- Modal para ver participantes de actividad recreacional -->
 <div class="modal fade" id="participantesModal" tabindex="-1" aria-labelledby="participantesModalLabel" aria-hidden="true">
@@ -762,7 +598,6 @@
                     </div>
                     <div class="text-muted" id="totalParticipantes"></div>
                 </div>
-                
                 <div class="table-responsive participantes-table">
                     <table class="table table-hover align-middle">
                         <thead class="table-light sticky-thead">
@@ -777,24 +612,17 @@
                         </tbody>
                     </table>
                 </div>
-                
                 <div class="d-flex justify-content-between align-items-center mt-3">
                     <div>
                         <button class="btn btn-outline-primary btn-sm" id="exportCSV">
-                            <i class="bi bi-download me-1"></i> Exportar CSV
-                        </button>
+                            <i class="bi bi-download me-1"></i> Exportar CSV </button>
                     </div>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-@endsection
-
-@section('styles')
-<style>
+</div> @endsection @section('styles') <style>
     /* Estilos generales para todas las cards */
     .course-card {
         border: none;
@@ -808,12 +636,12 @@
         background: white;
         position: relative;
     }
-    
+
     .course-card:hover {
         transform: translateY(-5px);
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     }
-    
+
     .course-img {
         background: #f0f4f8;
         color: #2c3e50;
@@ -823,17 +651,17 @@
         justify-content: center;
         font-size: 2.5rem;
     }
-    
+
     /* Estilo especial para cards recreacionales */
     .recreacional-card {
         border-left: 4px solid #4bc0c8;
         box-shadow: 0 4px 15px rgba(75, 192, 200, 0.2);
     }
-    
+
     .recreacional-card:hover {
         box-shadow: 0 10px 25px rgba(75, 192, 200, 0.3);
     }
-    
+
     .recreacional-img {
         height: 120px;
         display: flex;
@@ -841,35 +669,35 @@
         justify-content: center;
         font-size: 2.5rem;
     }
-    
+
     .course-body {
         padding: 1.5rem;
         flex: 1;
         display: flex;
         flex-direction: column;
     }
-    
+
     .course-title {
         font-size: 1.25rem;
         font-weight: 600;
         margin-bottom: 0.75rem;
         color: #2c3e50;
     }
-    
+
     .course-description {
         color: #678ca3;
         font-size: 0.9rem;
         margin-bottom: 1rem;
         flex: 1;
     }
-    
+
     .course-meta {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 1rem;
     }
-    
+
     .course-price {
         background: #4bc0c8;
         color: white;
@@ -878,12 +706,12 @@
         font-size: 0.85rem;
         font-weight: 600;
     }
-    
+
     .course-rating {
         color: #f39c12;
         font-weight: 600;
     }
-    
+
     .btn-enroll {
         background: #4bc0c8;
         color: white;
@@ -891,12 +719,12 @@
         font-weight: 500;
         transition: all 0.3s;
     }
-    
+
     .btn-enroll:hover {
         background: #3aa8b0;
         color: white;
     }
-    
+
     /* Ribbon para destacar actividades recreacionales */
     .ribbon {
         width: 150px;
@@ -905,12 +733,12 @@
         position: absolute;
         z-index: 1;
     }
-    
+
     .ribbon-top-right {
         top: -10px;
         right: -10px;
     }
-    
+
     .ribbon span {
         position: absolute;
         display: block;
@@ -927,7 +755,7 @@
         transform: rotate(45deg);
         font-weight: 600;
     }
-    
+
     /* Estilos específicos para cards recreacionales */
     .course-badge {
         display: flex;
@@ -935,13 +763,13 @@
         flex-wrap: wrap;
         margin-bottom: 0.75rem;
     }
-    
+
     .course-badge .badge {
         font-size: 0.75rem;
         font-weight: 500;
         padding: 0.35rem 0.5rem;
     }
-    
+
     .course-info-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -949,25 +777,25 @@
         margin-bottom: 1rem;
         font-size: 0.85rem;
     }
-    
+
     .info-item {
         display: flex;
         align-items: center;
         gap: 5px;
         color: #6c757d;
     }
-    
+
     .info-item i {
         color: #4bc0c8;
         font-size: 1rem;
     }
-    
+
     .facilitador-info {
         margin-top: 1rem;
         padding-top: 1rem;
         border-top: 1px solid #eee;
     }
-    
+
     .avatar-sm {
         width: 32px;
         height: 32px;
@@ -975,7 +803,7 @@
         align-items: center;
         justify-content: center;
     }
-    
+
     .avatar-title {
         width: 100%;
         height: 100%;
@@ -984,7 +812,7 @@
         justify-content: center;
         font-size: 0.875rem;
     }
-    
+
     /* Estilos para el sidebar de categorías */
     .sidebar {
         background: white;
@@ -992,13 +820,13 @@
         border-radius: 10px;
         padding: 1rem;
     }
-    
+
     .sidebar-heading {
         font-size: 1.1rem;
         font-weight: 600;
         color: #2c3e50;
     }
-    
+
     .nav.flex-column .nav-link {
         padding: 0.5rem 1rem;
         color: #678ca3;
@@ -1006,46 +834,41 @@
         margin-bottom: 0.25rem;
         transition: all 0.2s;
     }
-    
+
     .nav.flex-column .nav-link:hover {
         color: #2c3e50;
         background: #f0f4f8;
     }
-    
+
     .nav.flex-column .nav-link.active {
         color: white;
         background: linear-gradient(135deg, #2c3e50 0%, #678ca3 100%);
     }
-    
+
     .nav.flex-column .nav-link i {
         width: 20px;
         text-align: center;
     }
-    
+
     /* Estilo especial para el filtro de Plan Recreacional */
     .nav.flex-column .nav-link[data-category="Plan Recreacional"] {
         color: #4bc0c8;
         font-weight: 600;
     }
-    
+
     .nav.flex-column .nav-link[data-category="Plan Recreacional"]:hover {
         background: rgba(75, 192, 200, 0.1);
     }
-    
+
     .nav.flex-column .nav-link[data-category="Plan Recreacional"].active {
         background: linear-gradient(135deg, #4bc0c8 0%, #2c3e50 100%);
         color: white;
     }
-</style>
-@endsection
-
-@section('script')
-<script>
+</style> @endsection @section('script') <script>
     // Función para mostrar los detalles de la formación
     function showFormationDetails(event, nombre, descripcion, tipo, categoria, duracion, rating, disponible, facilitador, icono, tipoCodigo, id) {
         event.preventDefault();
         event.stopPropagation();
-        
         // Configurar los elementos del modal
         document.getElementById('detail-title').textContent = nombre;
         document.getElementById('detail-type').textContent = tipo;
@@ -1054,7 +877,6 @@
         document.getElementById('detail-duration').textContent = duracion ? duracion + ' horas' : 'No especificada';
         document.getElementById('detail-rating').textContent = rating;
         document.getElementById('detail-facilitador').textContent = facilitador || 'No especificado';
-        
         // Configurar disponibilidad
         const availabilityElement = document.getElementById('detail-availability');
         availabilityElement.className = 'fw-bold';
@@ -1065,7 +887,6 @@
             availabilityElement.textContent = 'No disponible';
             availabilityElement.classList.add('text-danger');
         }
-        
         // Configurar botón de inscripción
         const enrollBtn = document.getElementById('detail-enroll-btn');
         if (disponible === '1' || disponible === 'true') {
@@ -1082,56 +903,101 @@
             enrollBtn.classList.remove('btn-primary');
             enrollBtn.classList.add('btn-secondary');
         }
-        
         // Mostrar el modal
         const modal = new bootstrap.Modal(document.getElementById('formationDetailsModal'));
         modal.show();
     }
-
     document.addEventListener('DOMContentLoaded', function() {
         // Mapeo de categorías
         const CATEGORY_MAP = {
-            'all': {key: 'all', label: 'Todas'},
-            'hoy': {key: 'hoy', label: 'Disponibles hoy'},
-            'Biología': {key: 'Biología', label: 'Biología'},
-            'Física': {key: 'Física', label: 'Física'},
-            'Química': {key: 'Química', label: 'Química'},
-            'Matemática': {key: 'Matemática', label: 'Matemática'},
-            'Artes': {key: 'Artes', label: 'Artes'},
-            'Idiomas': {key: 'Idiomas', label: 'Idiomas'},
-            'Tecnología': {key: 'Tecnología', label: 'Tecnología'},
-            'Ambiente': {key: 'Ambiente', label: 'Ambiente'},
-            'OCEV': {key: 'OCEV', label: 'OCEV'},
-            'Ajedrez': {key: 'Ajedrez', label: 'Ajedrez'},
-            'Lectura/Escritura': {key: 'Lectura/Escritura', label: 'Lectura/Escritura'},
-            'TICs': {key: 'TICs', label: 'TICs'},
-            'EIS': {key: 'EIS', label: 'EIS'},
-            'Deporte': {key: 'Deporte', label: 'Deporte'},
-            'HSE': {key: 'HSE', label: 'HSE'},
-            'Plan Recreacional': {key: 'Plan Recreacional', label: 'Plan Recreacional'}
+            'all': {
+                key: 'all',
+                label: 'Todas'
+            },
+            'hoy': {
+                key: 'hoy',
+                label: 'Disponibles hoy'
+            },
+            'Biología': {
+                key: 'Biología',
+                label: 'Biología'
+            },
+            'Física': {
+                key: 'Física',
+                label: 'Física'
+            },
+            'Química': {
+                key: 'Química',
+                label: 'Química'
+            },
+            'Matemática': {
+                key: 'Matemática',
+                label: 'Matemática'
+            },
+            'Artes': {
+                key: 'Artes',
+                label: 'Artes'
+            },
+            'Idiomas': {
+                key: 'Idiomas',
+                label: 'Idiomas'
+            },
+            'Tecnología': {
+                key: 'Tecnología',
+                label: 'Tecnología'
+            },
+            'Ambiente': {
+                key: 'Ambiente',
+                label: 'Ambiente'
+            },
+            'OCEV': {
+                key: 'OCEV',
+                label: 'OCEV'
+            },
+            'Ajedrez': {
+                key: 'Ajedrez',
+                label: 'Ajedrez'
+            },
+            'Lectura/Escritura': {
+                key: 'Lectura/Escritura',
+                label: 'Lectura/Escritura'
+            },
+            'TICs': {
+                key: 'TICs',
+                label: 'TICs'
+            },
+            'EIS': {
+                key: 'EIS',
+                label: 'EIS'
+            },
+            'Deporte': {
+                key: 'Deporte',
+                label: 'Deporte'
+            },
+            'HSE': {
+                key: 'HSE',
+                label: 'HSE'
+            },
+            'Plan Recreacional': {
+                key: 'Plan Recreacional',
+                label: 'Plan Recreacional'
+            }
         };
-
         let currentCategory = 'all';
-
         // Función para filtrar formaciones por categoría
         function filterFormations(category) {
             currentCategory = category;
             const activeTab = document.querySelector('.tab-pane.fade.show.active');
             if (!activeTab) return;
-
             const container = activeTab.querySelector('.row.g-4');
             if (!container) return;
-
             const courseItems = container.querySelectorAll('.course-item');
             let hasVisibleItems = false;
-
             courseItems.forEach(item => {
                 const itemCategory = item.dataset.category;
                 const isAvailableToday = item.dataset.hoy === 'true';
                 const isRecreational = itemCategory === 'Plan Recreacional';
-                
                 let shouldShow = false;
-                
                 if (category === 'all') {
                     shouldShow = true;
                 } else if (category === 'hoy') {
@@ -1141,11 +1007,9 @@
                 } else {
                     shouldShow = (itemCategory === category && !isRecreational);
                 }
-                
                 item.style.display = shouldShow ? 'block' : 'none';
                 if (shouldShow) hasVisibleItems = true;
             });
-
             updateCategoryTitle(activeTab, category);
             showNoResultsMessage(container, hasVisibleItems);
         }
@@ -1153,17 +1017,14 @@
         function updateCategoryTitle(activeTab, category) {
             const titleElement = activeTab.querySelector('.category-title');
             if (!titleElement) return;
-
             const tabType = activeTab.id;
             const prefixes = {
                 'talleres': 'Talleres',
                 'cursos': 'Cursos',
                 'diplomados': 'Diplomados'
             };
-
             const baseTitle = prefixes[tabType] || '';
             const categoryData = CATEGORY_MAP[category] || CATEGORY_MAP.all;
-            
             if (category === 'all') {
                 titleElement.textContent = `${baseTitle} Disponibles`;
             } else if (category === 'hoy') {
@@ -1178,7 +1039,6 @@
         function showNoResultsMessage(container, hasVisibleItems) {
             const existingMessages = container.querySelectorAll('.no-results-message');
             existingMessages.forEach(msg => msg.remove());
-
             if (!hasVisibleItems) {
                 const message = document.createElement('div');
                 message.className = 'col-12 text-center py-4 no-results-message';
@@ -1186,7 +1046,6 @@
                 container.appendChild(message);
             }
         }
-
         // Event Listeners
         document.querySelectorAll('.category-filter').forEach(filter => {
             filter.addEventListener('click', function(e) {
@@ -1196,7 +1055,6 @@
                 filterFormations(this.dataset.category);
             });
         });
-
         // Manejar cambios de pestaña
         const tabEls = document.querySelectorAll('button[data-bs-toggle="tab"]');
         tabEls.forEach(tabEl => {
@@ -1204,13 +1062,11 @@
                 filterFormations(currentCategory);
             });
         });
-
         // Configurar el modal de edición
         const editFormationModal = document.getElementById('editFormationModal');
         if (editFormationModal) {
             editFormationModal.addEventListener('show.bs.modal', function(event) {
                 const button = event.relatedTarget;
-                
                 // Obtener los datos del botón
                 const id = button.getAttribute('data-id');
                 const tipo = button.getAttribute('data-tipo');
@@ -1220,11 +1076,9 @@
                 const duracion = button.getAttribute('data-duracion');
                 const disponible = button.getAttribute('data-disponible') === '1';
                 const facilitador = button.getAttribute('data-facilitador');
-                
                 // Configurar el formulario de edición
                 const form = document.getElementById('editFormationForm');
                 form.action = `/formaciones/${id}`;
-                
                 // Llenar los campos del formulario
                 document.getElementById('editFormationId').value = id;
                 document.getElementById('editFormationType').value = tipo;
@@ -1234,34 +1088,33 @@
                 document.getElementById('editFormationDuration').value = duracion || '';
                 document.getElementById('editFormationAvailableToday').checked = disponible;
                 document.getElementById('editFormationFacilitador').value = facilitador || '';
-                
                 // Actualizar el título del modal según el tipo
                 let tipoTexto = '';
-                switch(tipo) {
-                    case 'T': tipoTexto = 'Taller'; break;
-                    case 'C': tipoTexto = 'Curso'; break;
-                    case 'D': tipoTexto = 'Diplomado'; break;
+                switch (tipo) {
+                    case 'T':
+                        tipoTexto = 'Taller';
+                        break;
+                    case 'C':
+                        tipoTexto = 'Curso';
+                        break;
+                    case 'D':
+                        tipoTexto = 'Diplomado';
+                        break;
                 }
-                document.getElementById('editFormationModalLabel').innerHTML = 
-                    `<i class="bi bi-pencil-square me-2"></i>Editar ${tipoTexto}`;
+                document.getElementById('editFormationModalLabel').innerHTML = `<i class="bi bi-pencil-square me-2"></i>Editar ${tipoTexto}`;
             });
-
             // Manejar el envío del formulario de edición
             document.getElementById('editFormationForm').addEventListener('submit', async function(e) {
                 e.preventDefault();
-                
                 const form = e.target;
                 const submitBtn = form.querySelector('button[type="submit"]');
                 const originalText = submitBtn.innerHTML;
-                
                 submitBtn.disabled = true;
                 submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Actualizando...';
-
                 try {
                     // Crear FormData para manejar los datos del formulario
                     const formData = new FormData(form);
                     const data = {};
-                    
                     // Convertir FormData a objeto
                     formData.forEach((value, key) => {
                         // Manejar el checkbox de disponibilidad
@@ -1271,10 +1124,8 @@
                             data[key] = value;
                         }
                     });
-
                     // Asegurar que el método sea PUT
                     data._method = 'PUT';
-
                     const response = await fetch(form.action, {
                         method: 'POST', // Laravel requiere POST para métodos PUT/PATCH/DELETE
                         headers: {
@@ -1285,9 +1136,7 @@
                         },
                         body: JSON.stringify(data)
                     });
-
                     const responseData = await response.json();
-
                     if (!response.ok) {
                         let errorMessage = 'Error al actualizar la formación';
                         if (responseData.errors) {
@@ -1297,10 +1146,8 @@
                         }
                         throw new Error(errorMessage);
                     }
-
                     // Éxito - recargar la página
                     window.location.reload();
-
                 } catch (error) {
                     console.error('Error:', error);
                     Swal.fire({
@@ -1315,7 +1162,6 @@
                 }
             });
         }
-        
         // Configurar el modal de nueva formación
         const addFormationModal = document.getElementById('addFormationModal');
         if (addFormationModal) {
@@ -1324,29 +1170,29 @@
                 const type = button.getAttribute('data-type');
                 document.getElementById('formationType').value = type;
                 document.getElementById('addFormationForm').reset();
-                
                 // Actualizar el título del modal según el tipo
                 let tipoTexto = '';
-                switch(type) {
-                    case 'T': tipoTexto = 'Taller'; break;
-                    case 'C': tipoTexto = 'Curso'; break;
-                    case 'D': tipoTexto = 'Diplomado'; break;
+                switch (type) {
+                    case 'T':
+                        tipoTexto = 'Taller';
+                        break;
+                    case 'C':
+                        tipoTexto = 'Curso';
+                        break;
+                    case 'D':
+                        tipoTexto = 'Diplomado';
+                        break;
                 }
-                document.getElementById('addFormationModalLabel').innerHTML = 
-                    `<i class="bi bi-plus-circle me-2"></i>Añadir Nuevo ${tipoTexto}`;
+                document.getElementById('addFormationModalLabel').innerHTML = `<i class="bi bi-plus-circle me-2"></i>Añadir Nuevo ${tipoTexto}`;
             });
-
             // Manejar el envío del formulario de nueva formación
             document.getElementById('addFormationForm').addEventListener('submit', async function(e) {
                 e.preventDefault();
-                
                 const form = e.target;
                 const submitBtn = form.querySelector('button[type="submit"]');
                 const originalText = submitBtn.innerHTML;
-                
                 submitBtn.disabled = true;
                 submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Guardando...';
-
                 try {
                     // Crear objeto con los datos del formulario
                     const formData = {
@@ -1359,12 +1205,10 @@
                         facilitador: form.facilitador.value || null,
                         _token: document.querySelector('meta[name="csrf-token"]').content
                     };
-
                     // Validación básica
                     if (!formData.tipo) {
                         throw new Error('Debe seleccionar un tipo de formación');
                     }
-
                     // Enviar la solicitud
                     const response = await fetch(form.action, {
                         method: 'POST',
@@ -1375,9 +1219,7 @@
                         },
                         body: JSON.stringify(formData)
                     });
-
                     const data = await response.json();
-
                     // Manejo de respuestas
                     if (!response.ok) {
                         if (data.errors) {
@@ -1387,10 +1229,8 @@
                         }
                         throw new Error(data.message || 'Error en el servidor');
                     }
-
                     // Éxito - recargar la página
                     window.location.reload();
-
                 } catch (error) {
                     console.error('Error:', error);
                     Swal.fire({
@@ -1405,34 +1245,27 @@
                 }
             });
         }
-
         // Configurar el modal de nueva actividad recreacional
         const addRecreacionalModal = document.getElementById('addRecreacionalModal');
         if (addRecreacionalModal) {
             document.getElementById('addRecreacionalForm').addEventListener('submit', async function(e) {
                 e.preventDefault();
-                
                 const form = e.target;
                 const submitBtn = form.querySelector('button[type="submit"]');
                 const originalText = submitBtn.innerHTML;
-                
                 submitBtn.disabled = true;
                 submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Guardando...';
-
                 try {
                     // Obtener el token CSRF
                     const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-                    
                     // Crear FormData
                     const formData = new FormData(form);
                     const data = {};
                     formData.forEach((value, key) => {
                         data[key] = value;
                     });
-                    
                     // Añadir token CSRF
                     data._token = csrfToken;
-                    
                     const response = await fetch(form.action, {
                         method: 'POST',
                         headers: {
@@ -1442,9 +1275,7 @@
                         },
                         body: JSON.stringify(data)
                     });
-                    
                     const responseData = await response.json();
-                    
                     if (!response.ok) {
                         let errorMessage = 'Error al crear la actividad';
                         if (responseData.errors) {
@@ -1454,10 +1285,8 @@
                         }
                         throw new Error(errorMessage);
                     }
-                    
                     // Éxito - recargar la página
                     window.location.reload();
-                    
                 } catch (error) {
                     console.error('Error:', error);
                     Swal.fire({
@@ -1472,17 +1301,14 @@
                 }
             });
         }
-
         // Configurar el modal de edición recreacional
         const editRecreacionalModal = document.getElementById('editRecreacionalModal');
         if (editRecreacionalModal) {
             editRecreacionalModal.addEventListener('show.bs.modal', function(event) {
                 const button = event.relatedTarget;
                 const form = document.getElementById('editRecreacionalForm');
-                
                 // Establecer la acción del formulario
                 form.action = `/actividades-recreacionales/${button.getAttribute('data-id')}`;
-                
                 // Llenar los campos del formulario
                 document.getElementById('editRecreacionalId').value = button.getAttribute('data-id');
                 document.getElementById('editRecreacionalNombre').value = button.getAttribute('data-nombre');
@@ -1496,32 +1322,25 @@
                 const cupoCompleto = button.getAttribute('data-cupo_completo') === '1';
                 document.getElementById('editRecreacionalCupoCompleto').checked = cupoCompleto;
             });
-            
             // Manejar el envío del formulario
             document.getElementById('editRecreacionalForm').addEventListener('submit', async function(e) {
                 e.preventDefault();
-                
                 const form = e.target;
                 const submitBtn = form.querySelector('button[type="submit"]');
                 const originalText = submitBtn.innerHTML;
-                
                 submitBtn.disabled = true;
                 submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Actualizando...';
-                
                 try {
                     // Obtener el token CSRF
                     const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-                    
                     // Crear FormData
                     const formData = new FormData(form);
                     const data = {};
                     formData.forEach((value, key) => {
                         data[key] = value;
                     });
-                    
                     // Añadir método PUT
                     data._method = 'PUT';
-                    
                     const response = await fetch(form.action, {
                         method: 'POST',
                         headers: {
@@ -1531,9 +1350,7 @@
                         },
                         body: JSON.stringify(data)
                     });
-                    
                     const responseData = await response.json();
-                    
                     if (!response.ok) {
                         let errorMessage = 'Error al actualizar la actividad';
                         if (responseData.errors) {
@@ -1543,10 +1360,8 @@
                         }
                         throw new Error(errorMessage);
                     }
-                    
                     // Éxito - recargar la página
                     window.location.reload();
-                    
                 } catch (error) {
                     console.error('Error:', error);
                     Swal.fire({
@@ -1561,134 +1376,109 @@
                 }
             });
         }
-
         // CONFIGURACIÓN CORREGIDA DEL MODAL DE PARTICIPANTES
-       // CONFIGURACIÓN CORREGIDA DEL MODAL DE PARTICIPANTES
-    const participantesModal = document.getElementById('participantesModal');
-
-if (participantesModal) {
-    let participantesData = []; // Almacenar los datos para exportación
-    
-    participantesModal.addEventListener('show.bs.modal', async function(event) {
-        const button = event.relatedTarget;
-        const activityId = button.getAttribute('data-activity-id');
-        const activityName = button.closest('.course-card').querySelector('.course-title').textContent;
-        
-        // Actualizar título del modal
-        document.getElementById('modalActividadTitle').textContent = activityName;
-        
-    });
-    
-    // Función de búsqueda
-    document.getElementById('searchParticipantes').addEventListener('input', function(e) {
-        const searchTerm = e.target.value.toLowerCase();
-        const rows = document.querySelectorAll('#participantesTableBody tr');
-        
-        let visibleCount = 0;
-        
-        rows.forEach(row => {
-            const nombre = row.cells[1].textContent.toLowerCase();
-            if (nombre.includes(searchTerm)) {
-                row.style.display = '';
-                visibleCount++;
-            } else {
-                row.style.display = 'none';
-            }
-        });
-        
-        // Actualizar contador de resultados visibles
-        document.getElementById('totalParticipantes').textContent = 
-            `Mostrando: ${visibleCount} de ${rows.length} participante${rows.length !== 1 ? 's' : ''}`;
-    });
-    
-    // Función de exportación CORREGIDA
-    document.getElementById('exportCSV').addEventListener('click', function() {
-        if (participantesData.length === 0) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Sin datos',
-                text: 'No hay datos para exportar',
-                confirmButtonText: 'Entendido'
+        // CONFIGURACIÓN CORREGIDA DEL MODAL DE PARTICIPANTES
+        const participantesModal = document.getElementById('participantesModal');
+        if (participantesModal) {
+            let participantesData = []; // Almacenar los datos para exportación
+            participantesModal.addEventListener('show.bs.modal', async function(event) {
+                const button = event.relatedTarget;
+                const activityId = button.getAttribute('data-activity-id');
+                const activityName = button.closest('.course-card').querySelector('.course-title').textContent;
+                // Actualizar título del modal
+                document.getElementById('modalActividadTitle').textContent = activityName;
             });
-            return;
-        }
-        
-        try {
-            // Crear contenido CSV
-            let csvContent = "Número,Nombre Completo,Año,Fecha de Inscripción,ID\n";
-            
-            participantesData.forEach(participante => {
-                csvContent += `"${participante.numero}","${participante.nombre}","${participante.año}","${participante.fecha}","${participante.id}"\n`;
+            // Función de búsqueda
+            document.getElementById('searchParticipantes').addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                const rows = document.querySelectorAll('#participantesTableBody tr');
+                let visibleCount = 0;
+                rows.forEach(row => {
+                    const nombre = row.cells[1].textContent.toLowerCase();
+                    if (nombre.includes(searchTerm)) {
+                        row.style.display = '';
+                        visibleCount++;
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+                // Actualizar contador de resultados visibles
+                document.getElementById('totalParticipantes').textContent = `Mostrando: ${visibleCount} de ${rows.length} participante${rows.length !== 1 ? 's' : ''}`;
             });
-            
-            // Crear blob para descarga
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement("a");
-            const url = URL.createObjectURL(blob);
-            
-            link.setAttribute("href", url);
-            link.setAttribute("download", `participantes_${new Date().toISOString().split('T')[0]}.csv`);
-            link.style.visibility = 'hidden';
-            
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            
-            // Liberar memoria
-            setTimeout(() => URL.revokeObjectURL(url), 100);
-            
-        } catch (error) {
-            console.error('Error al exportar CSV:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'No se pudo exportar el archivo CSV',
-                confirmButtonText: 'Entendido'
+            // Función de exportación CORREGIDA
+            document.getElementById('exportCSV').addEventListener('click', function() {
+                if (participantesData.length === 0) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Sin datos',
+                        text: 'No hay datos para exportar',
+                        confirmButtonText: 'Entendido'
+                    });
+                    return;
+                }
+                try {
+                    // Crear contenido CSV
+                    let csvContent = "Número,Nombre Completo,Año,Fecha de Inscripción,ID\n";
+                    participantesData.forEach(participante => {
+                        csvContent += `"${participante.numero}","${participante.nombre}","${participante.año}","${participante.fecha}","${participante.id}"\n`;
+                    });
+                    // Crear blob para descarga
+                    const blob = new Blob([csvContent], {
+                        type: 'text/csv;charset=utf-8;'
+                    });
+                    const link = document.createElement("a");
+                    const url = URL.createObjectURL(blob);
+                    link.setAttribute("href", url);
+                    link.setAttribute("download", `participantes_${new Date().toISOString().split('T')[0]}.csv`);
+                    link.style.visibility = 'hidden';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    // Liberar memoria
+                    setTimeout(() => URL.revokeObjectURL(url), 100);
+                } catch (error) {
+                    console.error('Error al exportar CSV:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'No se pudo exportar el archivo CSV',
+                        confirmButtonText: 'Entendido'
+                    });
+                }
+            });
+            // Limpiar la modal cuando se cierre
+            participantesModal.addEventListener('hidden.bs.modal', function() {
+                document.getElementById('participantesTableBody').innerHTML = '';
+                document.getElementById('totalParticipantes').textContent = '';
+                document.getElementById('searchParticipantes').value = '';
+                participantesData = []; // Limpiar datos
             });
         }
-    });
-    
-    // Limpiar la modal cuando se cierre
-    participantesModal.addEventListener('hidden.bs.modal', function() {
-        document.getElementById('participantesTableBody').innerHTML = '';
-        document.getElementById('totalParticipantes').textContent = '';
-        document.getElementById('searchParticipantes').value = '';
-        participantesData = []; // Limpiar datos
-     });
-}
         // Inicialización
         filterFormations('all');
     });
 </script>
-
-
 <!-- Parte para mostrar los participantes -->
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
     const buttonsToParticipantes = document.querySelectorAll('.buttonsToParticipantes');
-
-    buttonsToParticipantes.forEach(button =>{
-        button.addEventListener('click', function(){
+    buttonsToParticipantes.forEach(button => {
+        button.addEventListener('click', function() {
             const id_button_to_activity = this.getAttribute('data-id');
-            axios.get(`/participantes-recreacionales/${id_button_to_activity}`)
-                .then(response => {
-                    llenarTablaParticipantes(response.data.participantes);
-                    console.log('DATOS:', response.data);
-                    console.log('PARTICIPANTES:', response.data.participantes);
-                })
-                .catch(() => {
-                    console.log('Error en la petición');
-                });
+            axios.get(`/participantes-recreacionales/${id_button_to_activity}`).then(response => {
+                llenarTablaParticipantes(response.data.participantes);
+                console.log('DATOS:', response.data);
+                console.log('PARTICIPANTES:', response.data.participantes);
+            }).catch(() => {
+                console.log('Error en la petición');
+            });
         });
     });
-
     // Función para llenar la tabla
     function llenarTablaParticipantes(participantes) {
         const tbody = document.getElementById('participantesTableBody');
-
         // Limpiar tabla primero
         tbody.innerHTML = '';
-
         // Verificar si hay participantes
         if (participantes.length === 0) {
             tbody.innerHTML = `
@@ -1698,21 +1488,17 @@ if (participantesModal) {
             `;
             return;
         }
-
         // Llenar con los datos
         participantes.forEach((participanteActividad, index) => {
             const fila = document.createElement('tr');
-
             fila.innerHTML = `
                 <td>${index + 1}</td>
                 <td>${participanteActividad.participante.nombre_apellido}</td>
                 <td>${participanteActividad.participante.edad}</td>
             `;
-
             tbody.appendChild(fila);
         });
     }
-
     // Función para formatear fechas
     function formatearFecha(fechaString) {
         const fecha = new Date(fechaString);
@@ -1724,5 +1510,4 @@ if (participantesModal) {
             minute: '2-digit'
         });
     }
-</script>
-@endsection
+</script> @endsection

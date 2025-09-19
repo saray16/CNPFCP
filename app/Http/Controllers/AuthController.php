@@ -26,7 +26,7 @@ class AuthController extends Controller
 
             // Redirección según el rol
             if (Auth::user()->rol === 'admin') {
-                return redirect()->intended('/dashboard');
+                return redirect()->intended('/admin');
             } else {
                 return redirect()->intended('/');
             }

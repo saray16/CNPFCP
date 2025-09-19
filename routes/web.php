@@ -6,11 +6,13 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InscripcionController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\CertificadoController;
 use App\Http\Controllers\FormacionController;
 use App\Http\Controllers\FacilitadorController;
 use App\Http\Controllers\ActividadRecreacionalController;
 use App\Http\Controllers\Api\ActividadParticipanteController;
+use Illuminate\Support\Facades\DB;
 
 // Ruta principal - Mostrar formaciones
 Route::get('/', [FormacionController::class, 'index'])->name('home');
@@ -48,7 +50,7 @@ Route::post('/inscripcion', [InscripcionController::class, 'procesarFormulario']
 Route::view('/historia', 'quienessomos')->name('historia');
 
 // Dashboard admin
-Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
 
 // Certificado
 Route::get('/certificado/{tipo}/{id}', [CertificadoController::class, 'descargar'])
