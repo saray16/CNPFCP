@@ -68,10 +68,13 @@
                     </div>
                 </div>
             </div> @endif
+
             <!-- Formulario -->
             <div class="card shadow-sm border-0">
                 <div class="card-body p-4 p-md-5">
-                    <form method="POST" action="{{ route('inscribir') }}" class="needs-validation" novalidate> @csrf
+                    <form method="POST" action="{{ route('inscribir') }}" class="needs-validation" novalidate> 
+                        @csrf
+                        
                         <!-- Sección 1: Datos del Participante -->
                         <div class="mb-5">
                             <div class="section-header mb-4">
@@ -89,7 +92,7 @@
                                         <div class="invalid-feedback"> Por favor ingrese su nombre completo </div>
                                     </div>
                                 </div>
-                                <!-- Cédula y Estado -->
+                                <!-- Cédula -->
                                 <div class="col-md-6">
                                     <div class="form-floating">
                                         <div class="input-group">
@@ -105,6 +108,7 @@
                                         <div class="invalid-feedback"> Ingrese un número de cédula válido (6-8 dígitos) </div>
                                     </div>
                                 </div>
+                                <!-- Estado -->
                                 <div class="col-md-6">
                                     <div class="form-floating">
                                         <select id="estado" name="estado" class="form-select" required>
@@ -140,96 +144,17 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Sección 2: Datos de la Formación -->
-                        <div class="mb-5">
-                            <div class="section-header mb-4">
-                                <div class="section-icon">
-                                    <i class="bi bi-book"></i>
-                                </div>
-                                <h2 class="section-title">Datos de la Formación</h2>
-                            </div>
-                            <!-- Tipo de Formación -->
-                            <div class="mb-4">
-                                <label class="form-label fw-semibold">Tipo de Formación <span class="text-danger">*</span></label>
-                                <div class="d-flex flex-wrap gap-3">
-                                    <div class="form-check-card">
-                                        <input class="form-check-input" type="radio" name="tipo_formacion" id="tipo_taller" value="T" {{ old('tipo_formacion') == 'T' ? 'checked' : '' }} required>
-                                        <label class="form-check-label" for="tipo_taller">
-                                            <i class="bi bi-tools me-2"></i> Taller </label>
-                                    </div>
-                                    <div class="form-check-card">
-                                        <input class="form-check-input" type="radio" name="tipo_formacion" id="tipo_curso" value="C" {{ old('tipo_formacion') == 'C' ? 'checked' : '' }} required>
-                                        <label class="form-check-label" for="tipo_curso">
-                                            <i class="bi bi-journal-text me-2"></i> Curso </label>
-                                    </div>
-                                    <div class="form-check-card">
-                                        <input class="form-check-input" type="radio" name="tipo_formacion" id="tipo_diplomado" value="D" {{ old('tipo_formacion') == 'D' ? 'checked' : '' }} required>
-                                        <label class="form-check-label" for="tipo_diplomado">
-                                            <i class="bi bi-award me-2"></i> Diplomado </label>
-                                    </div> @if(isset($actividadRecreacional)) <div class="form-check-card">
-                                        <input class="form-check-input" type="radio" name="tipo_formacion" id="tipo_recreacional" value="R" {{ old('tipo_formacion') == 'R' ? 'checked' : 'checked' }} disabled>
-                                        <label class="form-check-label" for="tipo_recreacional">
-                                            <i class="bi bi-emoji-smile me-2"></i> Actividad Recreacional </label>
-                                    </div> @endif
-                                </div>
-                                <div class="invalid-feedback d-block"> Por favor seleccione un tipo de formación </div>
-                            </div>
-                            <!-- Selects dinámicos -->
-                            <div class="row g-3">
-                                <div class="col-md-12 select-grupo" id="select_taller" style="display:none;">
-                                    <div class="form-floating">
-                                        <select id="taller" name="taller" class="form-select" required>
-                                            <option value="" disabled {{ old('taller') ? '' : 'selected' }}>Seleccione un taller</option> @foreach($talleres as $taller) <option value="{{ $taller->nombre }}" {{ old('taller') == $taller->nombre ? 'selected' : '' }} data-id="{{ $taller->id }}" data-duracion="{{ $taller->duracion }}" data-facilitador="{{ $taller->facilitador ?? '' }}" data-categoria="{{ $taller->categoria }}" data-descripcion="{{ $taller->descripcion }}">
-                                                {{ $taller->nombre }}
-                                            </option> @endforeach
-                                        </select>
-                                        <label for="taller">Seleccione un Taller <span class="text-danger">*</span></label>
-                                        <div class="invalid-feedback"> Por favor seleccione un taller </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 select-grupo" id="select_curso" style="display:none;">
-                                    <div class="form-floating">
-                                        <select id="curso" name="curso" class="form-select" required>
-                                            <option value="" disabled {{ old('curso') ? '' : 'selected' }}>Seleccione un curso</option> @foreach($cursos as $curso) <option value="{{ $curso->nombre }}" {{ old('curso') == $curso->nombre ? 'selected' : '' }} data-id="{{ $curso->id }}" data-duracion="{{ $curso->duracion }}" data-facilitador="{{ $curso->facilitador ?? '' }}" data-categoria="{{ $curso->categoria }}" data-descripcion="{{ $curso->descripcion }}">
-                                                {{ $curso->nombre }}
-                                            </option> @endforeach
-                                        </select>
-                                        <label for="curso">Seleccione un Curso <span class="text-danger">*</span></label>
-                                        <div class="invalid-feedback"> Por favor seleccione un curso </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 select-grupo" id="select_diplomado" style="display:none;">
-                                    <div class="form-floating">
-                                        <select id="diplomado" name="diplomado" class="form-select" required>
-                                            <option value="" disabled {{ old('diplomado') ? '' : 'selected' }}>Seleccione un diplomado</option> @foreach($diplomados as $diplomado) <option value="{{ $diplomado->nombre }}" {{ old('diplomado') == $diplomado->nombre ? 'selected' : '' }} data-id="{{ $diplomado->id }}" data-duracion="{{ $diplomado->duracion }}" data-facilitador="{{ $diplomado->facilitador ?? '' }}" data-categoria="{{ $diplomado->categoria }}" data-descripcion="{{ $diplomado->descripcion }}">
-                                                {{ $diplomado->nombre }}
-                                            </option> @endforeach
-                                        </select>
-                                        <label for="diplomado">Seleccione un Diplomado <span class="text-danger">*</span></label>
-                                        <div class="invalid-feedback"> Por favor seleccione un diplomado </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Campo oculto para la duración predeterminada -->
-                            <input type="hidden" id="duracion_predeterminada" name="duracion_predeterminada" value="">
-                            <!-- Mostrar duración al usuario -->
-                            <div class="col-md-12 mt-3">
-                                <div class="alert alert-info">
-                                    <strong>Duración:</strong> <span id="duracion_mostrada">0</span> horas
-                                </div>
-                            </div>
-                            <!-- Campo editable solo para admin --> @auth @if(auth()->check() && auth()->user()->is_admin) <div class="col-md-12 mt-3">
-                                <div class="form-floating">
-                                    <input type="number" id="duracion" name="duracion" class="form-control" placeholder="Duración en horas" value="{{ old('duracion') }}">
-                                    <label for="duracion" class="form-label">Duración (horas) - Editable para administrador</label>
-                                </div>
-                            </div> @endif @endauth @if(isset($formacion) && $formacion && $formacion->facilitador) <input type="hidden" id="formacion_id" name="formacion_id" value="{{ $formacion->id ?? '' }}">
-                            <input type="hidden" id="facilitador" name="facilitador" value="{{ $formacion->facilitador ?? '' }}"> @endif
-                            <!-- Botón de envío -->
-                            <div class="text-center mt-5">
-                                <button type="submit" class="btn btn-primary btn-lg px-5 py-3 fw-bold">
-                                    <i class="bi bi-send-fill me-2"></i> Enviar Inscripción </button>
-                            </div>
+
+                        <div class="inputsHidden">
+                            <input type="hidden" name="tipo_formacion" value="{{ $formacion->tipo }}">
+                            <input type="hidden" name="nombre_formacion" value="{{ $formacion->nombre }}">
+                            <input type="hidden" name="id_formacion" value="{{ $formacion->id }}">
+                        </div>
+                        <!-- Botón de envío -->
+                        <div class="text-center mt-5">
+                            <button type="submit" class="btn btn-primary btn-lg px-5 py-3 fw-bold">
+                                <i class="bi bi-send-fill me-2"></i> Enviar Inscripción </button>
+                        </div>
                     </form>
                 </div>
             </div>

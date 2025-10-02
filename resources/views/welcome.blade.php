@@ -356,8 +356,10 @@
                                     <span id="detail-availability" class="fw-bold"></span>
                                 </div>
                                 <div class="text-center mt-4">
-                                    <button class="btn btn-primary w-100" id="detail-enroll-btn">
-                                        <i class="fas fa-sign-in-alt me-1"></i> Inscribirse </button>
+                                    <a href="{{ route('inscripcion.formulario') }}" class="btn btn-primary w-100" id="detail-enroll-btn">
+                                        <i class="fas fa-sign-in-alt me-1"></i>
+                                         Inscribirse 
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -370,6 +372,7 @@
         </div>
     </div>
 </div>
+
 <!-- Modal para agregar formación -->
 <div class="modal fade" id="addFormationModal" tabindex="-1" aria-labelledby="addFormationModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -579,6 +582,7 @@
         </div>
     </div>
 </div>
+
 <!-- Modal para ver participantes de actividad recreacional -->
 <!-- Modal para ver participantes de actividad recreacional -->
 <div class="modal fade" id="participantesModal" tabindex="-1" aria-labelledby="participantesModalLabel" aria-hidden="true">
@@ -864,7 +868,8 @@
         background: linear-gradient(135deg, #4bc0c8 0%, #2c3e50 100%);
         color: white;
     }
-</style> @endsection @section('script') <script>
+</style> @endsection @section('script') 
+<script>
     // Función para mostrar los detalles de la formación
     function showFormationDetails(event, nombre, descripcion, tipo, categoria, duracion, rating, disponible, facilitador, icono, tipoCodigo, id) {
         event.preventDefault();
@@ -893,7 +898,7 @@
             enrollBtn.onclick = function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                window.location.href = `/inscripcion/formulario?tipo=${tipoCodigo}&formacion_id=${id}`;
+                window.location.href = `/inscripcion/?tipo=${tipoCodigo}&formacion_id=${id}`;
             };
             enrollBtn.disabled = false;
             enrollBtn.classList.remove('btn-secondary');
@@ -1458,6 +1463,8 @@
         filterFormations('all');
     });
 </script>
+
+
 <!-- Parte para mostrar los participantes -->
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
@@ -1510,4 +1517,5 @@
             minute: '2-digit'
         });
     }
-</script> @endsection
+</script> 
+@endsection

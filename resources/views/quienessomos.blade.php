@@ -328,8 +328,6 @@
 				</div>
 			</div>
 		</div>
-		
-		
 
 				<!-- Grid de funciones con animaciones -->
 				<div class="row g-4 functions-grid">

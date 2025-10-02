@@ -110,7 +110,7 @@
                                     <span class="badge rounded-pill bg-success bg-opacity-10 text-success">
                                         <i class="bi bi-check-circle me-1"></i> Aprobado
                                     </span>
-                                @elseif($inscripcion->estado_formacion === 'pendiente')
+                                @elseif($inscripcion->estado_formacion === 'pendiente' or $inscripcion->estado_formacion === 'pendiente_admin')
                                     <span class="badge rounded-pill bg-warning bg-opacity-10 text-warning">
                                         <i class="bi bi-clock-history me-1"></i> Pendiente
                                     </span>
@@ -132,6 +132,7 @@
             <i class="bi bi-check-lg"></i> Aprobar
         </button>
     </form>
+
     <button type="button" class="btn btn-sm btn-danger" 
         data-bs-toggle="modal" 
         data-bs-target="#rechazarModal"
@@ -139,31 +140,32 @@
         <i class="bi bi-x-lg"></i> Rechazar
     </button>
 </div>
-@elseif($inscripcion->estado_formacion === 'pendiente_admin')
-<span class="badge bg-info">Esperando admin</span>
-@elseif($inscripcion->estado_formacion === 'rechazado_facilitador')
-  <div>
-<span class="badge bg-danger">Rechazado</span>
-    @if($inscripcion->comentarios_rechazo_facilitador)
-                <div class="small text-muted mt-1">
-                    <i class="bi bi-chat-left-text"></i> {{ $inscripcion->comentarios_rechazo_facilitador }}
-                </div>
-            @endif
-        </div>
+
+    @elseif($inscripcion->estado_formacion === 'pendiente_admin')
+    <span class="badge bg-info">Esperando admin</span>
+    @elseif($inscripcion->estado_formacion === 'rechazado_facilitador')
+        <div>
+        <span class="badge bg-danger">Rechazado</span>
+        @if($inscripcion->comentarios_rechazo_facilitador)
+                    <div class="small text-muted mt-1">
+                        <i class="bi bi-chat-left-text"></i> {{ $inscripcion->comentarios_rechazo_facilitador }}
+                    </div>
+                @endif
+            </div>
     @endif
-</td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="7" class="text-center">No hay inscripciones pendientes</td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+    </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="7" class="text-center">No hay inscripciones pendientes</td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 <!-- Modal para Rechazar Certificado -->
 <div class="modal fade" id="rechazarModal" tabindex="-1" aria-labelledby="rechazarModalLabel" aria-hidden="true">
@@ -173,7 +175,7 @@
                 <h5 class="modal-title" id="rechazarModalLabel">Rechazar Certificado</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
-            <form id="formRechazarCertificado" method="POST" action="">
+            <form id="formRechazarCertificado" method="POST" action="{{ route('facilitador.rechazar') }}">
                 @csrf
                 @method('POST')
                 <div class="modal-body">
@@ -183,6 +185,8 @@
                         <small class="text-muted">Explica brevemente por qué rechazas este certificado.</small>
                     </div>
                 </div>
+                <input type="hidden" value="id" name="id_registro">
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-danger">
@@ -193,71 +197,4 @@
         </div>
     </div>
 </div>
-
-@section('scripts')
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Configurar el modal de rechazo
-     const rechazarModal = document.getElementById('rechazarModal');
-    if (rechazarModal) {
-        rechazarModal.addEventListener('show.bs.modal', function(event) {
-            const button = event.relatedTarget;
-            const inscripcionId = button.getAttribute('data-inscripcion-id');
-            const form = document.getElementById('formRechazarCertificado');
-            
-            // Actualizar la acción del formulario
-            form.action = `/facilitador/inscripciones/${inscripcionId}/rechazar`;
-            
-            // Limpiar el textarea cada vez que se abre el modal
-            const motivoTextarea = form.querySelector('#motivo');
-            if (motivoTextarea) {
-                motivoTextarea.value = '';
-            }
-        });
-    }
-
-    // Filtrado para la tabla de certificados
-    const filtroTipo = document.getElementById('filtroTipo');
-    const buscadorGeneral = document.getElementById('buscadorGeneral');
-    const btnLimpiarFiltros = document.getElementById('btnLimpiarFiltros');
-    const tablaCertificados = document.getElementById('tablaCertificados');
-    
-    function aplicarFiltros() {
-        const tipo = filtroTipo.value;
-        const busqueda = buscadorGeneral.value.toLowerCase();
-        
-        const filas = tablaCertificados.querySelectorAll('tbody tr');
-        
-        filas.forEach(fila => {
-            const filaTipo = fila.getAttribute('data-tipo');
-            const filaTexto = fila.textContent.toLowerCase();
-            
-            const coincideTipo = tipo === '' || filaTipo === tipo;
-            const coincideBusqueda = busqueda === '' || filaTexto.includes(busqueda);
-            
-            if (coincideTipo && coincideBusqueda) {
-                fila.style.display = '';
-            } else {
-                fila.style.display = 'none';
-            }
-        });
-    }
-    
-    // Event listeners para los filtros
-    [filtroTipo, buscadorGeneral].forEach(elemento => {
-        elemento.addEventListener('change', aplicarFiltros);
-        if (elemento === buscadorGeneral) {
-            elemento.addEventListener('keyup', aplicarFiltros);
-        }
-    });
-    
-    // Limpiar filtros
-    btnLimpiarFiltros.addEventListener('click', function() {
-        filtroTipo.value = '';
-        buscadorGeneral.value = '';
-        aplicarFiltros();
-    });
-});
-</script>
-@endsection
 @endsection

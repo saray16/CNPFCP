@@ -99,7 +99,7 @@
             <div class="row">
                 <div class="col-md-3 mb-4">
                     <a href="#">
-                        <img src="cenamec.jpeg" alt="Logo CENAMEC" class="footer-logo">
+                        <img src="{{ asset('images/gobierno.jpg') }}" alt="Logo CENAMEC" class="footer-logo">
                     </a>
                 </div>
                 <div class="col-md-3 mb-4">

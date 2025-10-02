@@ -39,10 +39,6 @@ class Inscripcion extends Model
          'modulo',
          'fecha_finalizacion',
          'certificado_url',
-         
-
-
-    
     ];
 
     public function user()

@@ -113,8 +113,8 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth'])->prefix('facilitador')->group(function () {
     Route::get('/dashboard', [FacilitadorController::class, 'index'])->name('facilitador.index');
     Route::post('/dashboard', [FacilitadorController::class, 'index'])->name('facilitador.index');
-    Route::post('/inscripciones/{id}/aprobar', [FacilitadorController::class, 'aprobar'])->name('facilitador.aprobar');
-    Route::post('/inscripciones/{id}/rechazar', [FacilitadorController::class, 'rechazar'])->name('facilitador.rechazar');
+    Route::post('/inscripciones/{item}/aprobar', [FacilitadorController::class, 'aprobar'])->name('facilitador.aprobar');
+    Route::post('/inscripciones/rechazar', [FacilitadorController::class, 'rechazar'])->name('facilitador.rechazar');
     Route::get('/inscripciones/{id}/evaluar', [FacilitadorController::class, 'evaluar'])->name('facilitador.evaluar');
     Route::post('/inscripciones/{id}/evaluar', [FacilitadorController::class, 'guardarEvaluacion'])->name('facilitador.guardar-evaluacion');
 });
