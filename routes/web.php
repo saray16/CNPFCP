@@ -129,3 +129,9 @@ Route::resource('actividades-recreacionales', ActividadRecreacionalController::c
 
 
 Route::get('/participantes-recreacionales/{taller}', [ActividadParticipanteController::class, 'getParticipantesRecreacionales'])->name('getParticipantes.recreacionales');
+
+// Ruta para actividades recreacionales (usa el controlador que SÍ existe)
+Route::get('/participantes-recreacionales/{id}', [ActividadRecreacionalController::class, 'getParticipantes']);
+
+// Ruta para formaciones normales (usa el mismo controlador que funciona)
+Route::get('/participantes-formaciones/{id}', [ActividadRecreacionalController::class, 'getParticipantes']);

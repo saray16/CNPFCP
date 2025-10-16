@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ActividadRecreacional;
+use App\Models\Formacion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -11,30 +12,66 @@ use Carbon\Carbon;
 class ActividadRecreacionalController extends Controller
 {
     /**
-     * Obtener participantes de actividades recreacionales (VERSIÓN MEJORADA)
-     * Ahora detecta automáticamente la tabla correcta según el nombre de la actividad
+     * Obtener participantes de actividades recreacionales Y formaciones normales
+     * Ahora detecta automáticamente si es actividad recreacional o formación normal
      */
     public function getParticipantes($actividadId)
     {
         try {
-            Log::info("Solicitando participantes para actividad ID: $actividadId");
+            Log::info("Solicitando participantes para ID: $actividadId");
             
-            // Verificar que la actividad existe
+            // PRIMERO: Intentar como formación normal (tabla participantes_actividades)
+            $participantesFormaciones = DB::table('participantes_actividades')
+                ->join('participantes', 'participantes_actividades.participante_id', '=', 'participantes.id')
+                ->where('participantes_actividades.actividad_id', $actividadId)
+                ->select(
+                    'participantes.id',
+                    'participantes.nombre_apellido as nombre_completo',
+                    'participantes.edad',
+                    'participantes_actividades.created_at'
+                )
+                ->get();
+
+            Log::info("Participantes encontrados en formaciones normales: " . $participantesFormaciones->count());
+            
+            // Si encontramos participantes en formaciones normales, retornarlos
+            if ($participantesFormaciones->count() > 0) {
+                $participantesTransformados = $participantesFormaciones->map(function($participante) {
+                    return [
+                        'participante' => [
+                            'nombre_completo' => $participante->nombre_completo,
+                            'edad' => $participante->edad
+                        ],
+                        'created_at' => $participante->created_at
+                    ];
+                });
+
+                return response()->json([
+                    'success' => true,
+                    'participantes' => $participantesTransformados,
+                    'tipo' => 'formacion_normal'
+                ]);
+            }
+            
+            // SEGUNDO: Si no hay en formaciones normales, buscar como actividad recreacional
+            Log::info("No se encontraron participantes en formaciones normales, buscando como actividad recreacional...");
+            
+            // Verificar que la actividad recreacional existe
             $actividad = ActividadRecreacional::find($actividadId);
             
             if (!$actividad) {
                 return response()->json([
-                    'error' => 'Actividad no encontrada',
-                    'participantes' => [],
-                    'total' => 0
+                    'success' => false,
+                    'message' => 'Actividad no encontrada',
+                    'participantes' => []
                 ], 404);
             }
             
-            Log::info("Actividad encontrada: " . $actividad->nombre);
+            Log::info("Actividad recreacional encontrada: " . $actividad->nombre);
             
             // Determinar qué tabla usar basado en el nombre de la actividad
             $tabla = $this->determinarTablaParticipantes($actividad->nombre);
-            Log::info("Usando tabla: $tabla para actividad: " . $actividad->nombre);
+            Log::info("Usando tabla recreacional: $tabla para actividad: " . $actividad->nombre);
             
             // Verificar si la tabla existe
             try {
@@ -46,47 +83,44 @@ class ActividadRecreacionalController extends Controller
                 if (!$tableExists) {
                     Log::error("La tabla $tabla no existe en la base de datos");
                     return response()->json([
-                        'error' => 'La tabla de participantes no existe',
-                        'participantes' => [],
-                        'total' => 0
+                        'success' => false,
+                        'message' => 'La tabla de participantes no existe',
+                        'participantes' => []
                     ], 500);
                 }
             } catch (\Exception $e) {
                 Log::error('Error verificando tabla: ' . $e->getMessage());
                 return response()->json([
-                    'error' => 'Error accediendo a la base de datos',
-                    'participantes' => [],
-                    'total' => 0
+                    'success' => false,
+                    'message' => 'Error accediendo a la base de datos',
+                    'participantes' => []
                 ], 500);
             }
             
-            // Obtener participantes específicos para esta actividad
-            $participantes = DB::table($tabla)
+            // Obtener participantes específicos para esta actividad recreacional
+            $participantesRecreacionales = DB::table($tabla)
                 ->where('actividad_id', $actividadId)
                 ->select('id', 'nombre_completo', 'año', 'created_at')
                 ->orderBy('created_at', 'desc')
                 ->get();
                 
-            Log::info("Participantes encontrados para actividad $actividadId: " . $participantes->count());
+            Log::info("Participantes encontrados en actividad recreacional: " . $participantesRecreacionales->count());
             
             // Transformar los datos para la respuesta
-            $participantesTransformados = $participantes->map(function($participante) {
+            $participantesTransformados = $participantesRecreacionales->map(function($participante) {
                 return [
-                    'ID' => $participante->id,
-                    'NOMBRE COMPLETO' => $participante->nombre_completo,
-                    'ARO' => $participante->año,
-                    'FECHA INSCENPICON' => Carbon::parse($participante->created_at)->format('d/m/Y H:i')
+                    'participante' => [
+                        'nombre_completo' => $participante->nombre_completo,
+                        'edad' => $participante->año // Nota: en recreacionales usan 'año' como edad
+                    ],
+                    'created_at' => $participante->created_at
                 ];
             });
 
             return response()->json([
+                'success' => true,
                 'participantes' => $participantesTransformados,
-                'total' => $participantesTransformados->count(),
-                'actividad_nombre' => $actividad->nombre,
-                'debug' => [
-                    'tabla_utilizada' => $tabla,
-                    'actividad_id_buscado' => $actividadId
-                ]
+                'tipo' => 'actividad_recreacional'
             ]);
             
         } catch (\Exception $e) {
@@ -94,9 +128,9 @@ class ActividadRecreacionalController extends Controller
             Log::error('Trace: '.$e->getTraceAsString());
             
             return response()->json([
-                'error' => 'Error interno del servidor: ' . $e->getMessage(),
-                'participantes' => [],
-                'total' => 0
+                'success' => false,
+                'message' => 'Error interno del servidor: ' . $e->getMessage(),
+                'participantes' => []
             ], 500);
         }
     }
@@ -211,5 +245,61 @@ class ActividadRecreacionalController extends Controller
         }
 
         return response()->json($mapeo);
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        //
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        //
     }
 }

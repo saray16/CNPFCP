@@ -292,7 +292,7 @@
             <div class="card-header">
                 <i class="bi bi-person-circle logo-icon"></i>
                 <h2>Iniciar Sesión</h2>
-                <p>Accede a tu cuenta de CENAMEC</p>
+                <p></p>
             </div>
             
             <div class="card-body">
@@ -409,7 +409,7 @@
             </div>
             <div class="contact-item">
                 <i class="bi bi-envelope"></i>
-                <span>info@cenamec.org.ve</span>
+                <span>formacioncontinuaypermanente22@gmail.com</span>
             </div>
         </div>
         

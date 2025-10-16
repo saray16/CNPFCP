@@ -292,7 +292,7 @@
             <div class="card-header">
                 <i class="bi bi-person-plus logo-icon"></i>
                 <h1>Registro de Usuario</h1>
-                <p>Crea tu cuenta en CENAMEC</p>
+                <p></p>
             </div>
             
             <div class="card-body">
