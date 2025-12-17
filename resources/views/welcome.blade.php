@@ -34,6 +34,14 @@
                             <li class="nav-item"><a class="nav-link category-filter active" href="#" data-category="all"><i class="bi bi-grid-fill me-2"></i>Todas</a></li>
                             <li class="nav-item"><a class="nav-link category-filter" href="#" data-category="hoy"><i class="bi bi-check2-circle me-2"></i>Disponibles hoy</a></li>
                             <li class="nav-item"><a class="nav-link category-filter" href="#" data-category="Plan Recreacional"><i class="bi bi-emoji-smile me-2"></i>Plan Recreacional</a></li>
+                            <!-- Sub-filtros para Plan Recreacional -->
+                            <li class="nav-item sub-filter" style="display: none;">
+                                <ul class="nav flex-column ms-4">
+                                    <li class="nav-item"><a class="nav-link sub-category-filter active" href="#" data-category="Plan Recreacional" data-year="all"><i class="bi bi-arrow-return-right me-2"></i>Todos los años</a></li>
+                                    <li class="nav-item"><a class="nav-link sub-category-filter" href="#" data-category="Plan Recreacional" data-year="2024"><i class="bi bi-arrow-return-right me-2"></i>Plan 2024</a></li>
+                                    <li class="nav-item"><a class="nav-link sub-category-filter" href="#" data-category="Plan Recreacional" data-year="2023"><i class="bi bi-arrow-return-right me-2"></i>Plan 2023</a></li>
+                                </ul>
+                            </li>
                             <li class="nav-item"><a class="nav-link category-filter" href="#" data-category="Biología"><i class="bi bi-flower3 me-2"></i>Biología</a></li>
                             <li class="nav-item"><a class="nav-link category-filter" href="#" data-category="Física"><i class="bi bi-eyedropper me-2"></i>Física</a></li>
                             <li class="nav-item"><a class="nav-link category-filter" href="#" data-category="Química"><i class="bi bi-funnel me-2"></i>Química</a></li>
@@ -129,7 +137,12 @@
                                 </div> 
                                 @endforelse 
                                 @foreach($actividadesRecreacionales as $actividad) 
-                                <div class="col-md-4 mb-4 course-item" data-category="Plan Recreacional">
+                                @php
+                                    // Determinar el año de la actividad basado en la fecha de inicio
+                                    $fechaInicio = \Carbon\Carbon::parse($actividad->fecha_inicio);
+                                    $year = $fechaInicio->year;
+                                @endphp
+                                <div class="col-md-4 mb-4 course-item" data-category="Plan Recreacional" data-year="{{ $year }}">
                                     <div class="course-card recreacional-card">
                                         <div class="course-img recreacional-img" style="background: linear-gradient(135deg, #4bc0c8 0%, #2c3e50 100%);">
                                             <i class="bi bi-emoji-smile text-white" style="font-size: 2.5rem;"></i>
@@ -140,6 +153,7 @@
                                             <div class="course-badge mb-2">
                                                 <span class="badge bg-light text-dark"><i class="bi bi-people-fill me-1"></i> {{ $actividad->edades }}</span>
                                                 <span class="badge bg-light text-dark"><i class="bi bi-tag-fill me-1"></i> {{ $actividad->tipo }}</span>
+                                                <span class="badge bg-warning text-dark"><i class="bi bi-calendar me-1"></i> {{ $year }}</span>
                                             </div>
                                             <div class="course-info-grid mb-3">
                                                 <div class="info-item">
@@ -667,7 +681,11 @@
             </div>
             <form id="addFormationForm" action="{{ route('formaciones.store') }}" method="POST"> 
                 @csrf 
-                <input type="hidden" id="formationType" name="tipo">
+                <!-- Campo oculto para el tipo -->
+                <input type="hidden" id="formationType" name="tipo" value="">
+                <!-- Campo oculto para disponible_hoy con valor por defecto 0 -->
+                <input type="hidden" name="disponible_hoy" value="0">
+                
                 <div class="modal-body py-4">
                     <div class="row g-4">
                         <div class="col-md-6">
@@ -740,6 +758,8 @@
             </div>
             <form id="editFormationForm" method="POST"> 
                 @csrf @method('PUT') 
+                <!-- Campo oculto para disponible_hoy con valor por defecto 0 -->
+                <input type="hidden" name="disponible_hoy" value="0">
                 <input type="hidden" id="editFormationId" name="id">
                 <input type="hidden" id="editFormationType" name="tipo">
                 <div class="modal-body py-4">
@@ -1113,6 +1133,22 @@
         color: white;
     }
 
+    .sub-filter .nav-link {
+        font-size: 0.85rem;
+        padding: 0.4rem 1rem;
+        color: #678ca3;
+    }
+
+    .sub-filter .nav-link:hover {
+        color: #2c3e50;
+        background: #f0f4f8;
+    }
+
+    .sub-filter .nav-link.active {
+        color: white;
+        background: linear-gradient(135deg, #4bc0c8 0%, #2c3e50 100%);
+    }
+
     .sticky-thead {
         position: sticky;
         top: 0;
@@ -1171,6 +1207,94 @@
     }
 
     document.addEventListener('DOMContentLoaded', function() {
+        // ==============================================
+        // 1. CÓDIGO PARA LOS BOTONES DE AGREGAR Y EDITAR
+        // ==============================================
+        
+        // Cuando haces clic en "Agregar Taller/Curso/Diplomado"
+        document.querySelectorAll('.add-formation-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                // Obtener el tipo (T, C, D) del botón
+                const tipo = this.getAttribute('data-type');
+                
+                // Poner el tipo en el campo oculto del formulario
+                document.getElementById('formationType').value = tipo;
+                
+                // Limpiar el formulario
+                document.getElementById('formationName').value = '';
+                document.getElementById('formationDescription').value = '';
+                document.getElementById('formationCategory').value = '';
+                document.getElementById('formationDuration').value = '';
+                document.getElementById('formationAvailableToday').checked = false;
+                document.getElementById('formationFacilitador').value = '';
+            });
+        });
+        
+        // Cuando haces clic en "Editar" en una formación
+        document.querySelectorAll('.edit-formation-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                // Obtener todos los datos del botón
+                const id = this.getAttribute('data-id');
+                const tipo = this.getAttribute('data-tipo');
+                const nombre = this.getAttribute('data-nombre');
+                const descripcion = this.getAttribute('data-descripcion');
+                const categoria = this.getAttribute('data-categoria');
+                const duracion = this.getAttribute('data-duracion');
+                const disponible = this.getAttribute('data-disponible');
+                const facilitador = this.getAttribute('data-facilitador');
+                
+                // Llenar el formulario de edición
+                document.getElementById('editFormationId').value = id;
+                document.getElementById('editFormationType').value = tipo;
+                document.getElementById('editFormationName').value = nombre;
+                document.getElementById('editFormationDescription').value = descripcion;
+                document.getElementById('editFormationCategory').value = categoria;
+                document.getElementById('editFormationDuration').value = duracion;
+                document.getElementById('editFormationFacilitador').value = facilitador;
+                
+                // Marcar el checkbox si está disponible
+                document.getElementById('editFormationAvailableToday').checked = (disponible === '1');
+                
+                // Cambiar la URL del formulario
+                document.getElementById('editFormationForm').action = `/formaciones/${id}`;
+            });
+        });
+
+        // Cuando haces clic en "Editar" en actividad recreacional
+        document.querySelectorAll('.edit-recreacional-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                const nombre = this.getAttribute('data-nombre');
+                const tipo = this.getAttribute('data-tipo');
+                const edades = this.getAttribute('data-edades');
+                const espacio = this.getAttribute('data-espacio');
+                const horario = this.getAttribute('data-horario');
+                const fecha_inicio = this.getAttribute('data-fecha_inicio');
+                const fecha_fin = this.getAttribute('data-fecha_fin');
+                const facilitador = this.getAttribute('data-facilitador');
+                const cupo_completo = this.getAttribute('data-cupo_completo');
+                
+                // Llenar el formulario
+                document.getElementById('editRecreacionalId').value = id;
+                document.getElementById('editRecreacionalNombre').value = nombre;
+                document.getElementById('editRecreacionalTipo').value = tipo;
+                document.getElementById('editRecreacionalEdades').value = edades;
+                document.getElementById('editRecreacionalEspacio').value = espacio;
+                document.getElementById('editRecreacionalHorario').value = horario;
+                document.getElementById('editRecreacionalFechaInicio').value = fecha_inicio;
+                document.getElementById('editRecreacionalFechaFin').value = fecha_fin;
+                document.getElementById('editRecreacionalFacilitador').value = facilitador;
+                document.getElementById('editRecreacionalCupoCompleto').checked = (cupo_completo === '1');
+                
+                // Cambiar la URL del formulario
+                document.getElementById('editRecreacionalForm').action = `/actividades-recreacionales/${id}`;
+            });
+        });
+
+        // ==============================================
+        // 2. CÓDIGO PARA LOS FILTROS DE CATEGORÍAS
+        // ==============================================
+        
         // Mapeo de categorías
         const CATEGORY_MAP = {
             'all': {
@@ -1246,11 +1370,26 @@
                 label: 'HSE'
             }
         };
-        let currentCategory = 'all';
         
-        // Función para filtrar formaciones por categoría - CORREGIDA
-        function filterFormations(category) {
+        let currentCategory = 'all';
+        let currentYear = 'all';
+        let isPlanRecreacionalActive = false;
+        
+        // Función para mostrar/ocultar sub-filtros
+        function toggleSubFilters() {
+            const subFilter = document.querySelector('.sub-filter');
+            if (isPlanRecreacionalActive) {
+                subFilter.style.display = 'block';
+            } else {
+                subFilter.style.display = 'none';
+            }
+        }
+        
+        // Función para filtrar formaciones por categoría y año
+        function filterFormations(category, year = 'all') {
             currentCategory = category;
+            currentYear = year;
+            
             const activeTab = document.querySelector('.tab-pane.fade.show.active');
             if (!activeTab) return;
             
@@ -1264,6 +1403,7 @@
                 const itemCategory = item.dataset.category;
                 const isAvailableToday = item.dataset.hoy === 'true';
                 const isRecreational = itemCategory === 'Plan Recreacional';
+                const itemYear = item.dataset.year;
                 
                 let shouldShow = false;
                 
@@ -1272,10 +1412,14 @@
                 } else if (category === 'hoy') {
                     shouldShow = isAvailableToday;
                 } else if (category === 'Plan Recreacional') {
-                    // CORRECCIÓN: Mostrar SOLO las actividades recreacionales
-                    shouldShow = isRecreational;
+                    // Si es Plan Recreacional, aplicar filtro por año
+                    if (year === 'all') {
+                        shouldShow = isRecreational;
+                    } else {
+                        shouldShow = isRecreational && itemYear === year;
+                    }
                 } else {
-                    // CORRECCIÓN: Mostrar formaciones normales de la categoría seleccionada
+                    // Mostrar formaciones normales de la categoría seleccionada
                     shouldShow = (itemCategory === category && !isRecreational);
                 }
                 
@@ -1283,11 +1427,11 @@
                 if (shouldShow) hasVisibleItems = true;
             });
             
-            updateCategoryTitle(activeTab, category);
+            updateCategoryTitle(activeTab, category, year);
             showNoResultsMessage(container, hasVisibleItems);
         }
 
-        function updateCategoryTitle(activeTab, category) {
+        function updateCategoryTitle(activeTab, category, year) {
             const titleElement = activeTab.querySelector('.category-title');
             if (!titleElement) return;
             
@@ -1306,8 +1450,11 @@
             } else if (category === 'hoy') {
                 titleElement.textContent = `${baseTitle} Disponibles Hoy`;
             } else if (category === 'Plan Recreacional') {
-                // CORRECCIÓN: Título específico para actividades recreacionales
-                titleElement.textContent = 'Actividades Recreacionales';
+                if (year === 'all') {
+                    titleElement.textContent = 'Actividades Recreacionales';
+                } else {
+                    titleElement.textContent = `Actividades Recreacionales ${year}`;
+                }
             } else {
                 titleElement.textContent = `${baseTitle} de ${categoryData.label}`;
             }
@@ -1325,13 +1472,47 @@
             }
         }
         
-        // Event Listeners
+        // Event Listeners para categorías principales
         document.querySelectorAll('.category-filter').forEach(filter => {
             filter.addEventListener('click', function(e) {
                 e.preventDefault();
+                
+                // Remover active de todos los filtros
                 document.querySelectorAll('.category-filter').forEach(f => f.classList.remove('active'));
+                document.querySelectorAll('.sub-category-filter').forEach(f => f.classList.remove('active'));
+                
+                // Activar el filtro clickeado
                 this.classList.add('active');
-                filterFormations(this.dataset.category);
+                
+                const category = this.dataset.category;
+                isPlanRecreacionalActive = (category === 'Plan Recreacional');
+                
+                // Mostrar/ocultar sub-filtros
+                toggleSubFilters();
+                
+                // Si es Plan Recreacional, activar "Todos los años" por defecto
+                if (isPlanRecreacionalActive) {
+                    document.querySelector('.sub-category-filter[data-year="all"]').classList.add('active');
+                    filterFormations(category, 'all');
+                } else {
+                    filterFormations(category);
+                }
+            });
+        });
+        
+        // Event Listeners para sub-filtros de año
+        document.querySelectorAll('.sub-category-filter').forEach(filter => {
+            filter.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remover active de todos los sub-filtros
+                document.querySelectorAll('.sub-category-filter').forEach(f => f.classList.remove('active'));
+                
+                // Activar el sub-filtro clickeado
+                this.classList.add('active');
+                
+                const year = this.dataset.year;
+                filterFormations('Plan Recreacional', year);
             });
         });
         
@@ -1339,9 +1520,17 @@
         const tabEls = document.querySelectorAll('button[data-bs-toggle="tab"]');
         tabEls.forEach(tabEl => {
             tabEl.addEventListener('shown.bs.tab', () => {
-                filterFormations(currentCategory);
+                if (isPlanRecreacionalActive) {
+                    filterFormations('Plan Recreacional', currentYear);
+                } else {
+                    filterFormations(currentCategory);
+                }
             });
         });
+
+        // ==============================================
+        // 3. CÓDIGO PARA LOS MODALES DE PARTICIPANTES
+        // ==============================================
 
         // CONFIGURACIÓN COMPLETA DEL MODAL PARA PARTICIPANTES DE FORMACIONES NORMALES
         const participantesFormacionesModal = document.getElementById('participantesFormacionesModal');
@@ -2010,8 +2199,12 @@
             });
         }
 
-        // Inicialización
+        // ==============================================
+        // 4. INICIALIZACIÓN
+        // ==============================================
+        
         filterFormations('all');
+        toggleSubFilters();
     });
 </script> 
 @endsection
